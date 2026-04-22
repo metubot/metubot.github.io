@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>METUbot - Kampüs Asistanı</title>
+    <title>METUbot</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .chat-container::-webkit-scrollbar { width: 5px; }
@@ -16,28 +16,32 @@
 
     <header class="odtu-red text-white p-4 shadow-lg flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <div class="bg-white p-1 rounded-full w-8 h-8 flex items-center justify-center">
-                <span class="odtu-text font-black text-xs">METU</span>
+            <div class="bg-white p-1 rounded-full w-10 h-10 flex items-center justify-center shadow-md">
+                <svg viewBox="0 0 100 100" class="w-8 h-8 text-[#D32F2F]">
+                    <path fill="currentColor" d="M50 10 C 25 10, 10 40, 10 70 C 10 85, 25 90, 35 85 C 45 80, 48 65, 48 55 L 52 55 C 52 65, 55 80, 65 85 C 75 90, 90 85, 90 70 C 90 40, 75 10, 50 10 Z M 50 25 C 65 25, 75 45, 75 65 C 75 75, 70 78, 65 77 C 60 76, 58 68, 58 60 L 42 60 C 42 68, 40 76, 35 77 C 30 78, 25 75, 25 65 C 25 45, 35 25, 50 25 Z" />
+                </svg>
             </div>
-            <h1 class="text-xl font-bold tracking-tight">METUbot</h1>
+            <h1 class="text-2xl font-extrabold tracking-tight">METUbot</h1>
         </div>
-        <span class="text-xs opacity-80 uppercase font-medium">Kampüs Asistanı</span>
+        <div class="text-xs opacity-80 font-medium bg-white/20 px-3 py-1 rounded-full">
+            Kampüs Asistanı
+        </div>
     </header>
 
     <main id="chat-window" class="flex-1 overflow-y-auto p-4 space-y-4 chat-container">
         <div class="flex justify-start">
             <div class="bg-white border-l-4 border-[#D32F2F] text-gray-800 p-4 rounded-lg rounded-tl-none max-w-[85%] shadow-sm">
-                <p class="font-semibold odtu-text mb-1">Merhaba Hocam!</p>
-                <p class="text-sm">Ben METUbot. Bölüm yönetmelikleri, kampüs duyuruları veya IE102 gibi dersler hakkında sana yardımcı olmak için buradayım. Ne sormak istersin?</p>
+                <p class="font-semibold odtu-text mb-1">Merhaba!</p>
+                <p class="text-sm text-gray-600">Sana kampüs yaşamı ve okul yönetmelikleri hakkında nasıl yardımcı olabilirim?</p>
             </div>
         </div>
     </main>
 
-    <footer class="p-4 bg-white border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+    <footer class="p-4 bg-white border-t">
         <div class="max-w-4xl mx-auto flex gap-2">
             <input type="text" id="user-input" 
-                   placeholder="Yönetmelik veya ders sor..." 
-                   class="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#D32F2F] focus:border-transparent transition-all">
+                   placeholder="Mesajınızı yazın..." 
+                   class="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#D32F2F] transition-all">
             <button onclick="sendMessage()" 
                     class="odtu-red text-white px-6 py-3 rounded-xl font-bold hover:bg-red-700 active:scale-95 transition-all shadow-md">
                 Gönder
@@ -56,16 +60,8 @@
             addMessage(text, 'user');
             userInput.value = "";
 
-            // Simüle edilmiş cevap (Daha sonra AI buraya bağlanacak)
             setTimeout(() => {
-                const responses = [
-                    "Bunu hemen araştırıyorum...",
-                    "Yönetmeliğe göre bu durum şu şekilde açıklanmıştır...",
-                    "IE102 dersi ile ilgili detayları veritabanımda kontrol ediyorum.",
-                    "Anladım, bu konuda sana nasıl yardımcı olabilirim?"
-                ];
-                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                addMessage(randomResponse, 'ai');
+                addMessage("Bu konu hakkında bilgi getiriyorum...", 'ai');
             }, 1000);
         }
 
@@ -79,7 +75,16 @@
                 : 'bg-white border-l-4 border-[#D32F2F] text-gray-800 p-3 rounded-2xl rounded-tl-none max-w-[80%] shadow-sm';
             
             msgDiv.innerText = text;
-            wrapper.appendChild(msgDiv
+            wrapper.appendChild(msgDiv);
+            chatWindow.appendChild(wrapper);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        userInput.addEventListener("keypress", (e) => { if (e.key === "Enter") sendMessage(); });
+    </script>
+</body>
+</html>
+
 
 
         
