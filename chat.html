@@ -7,13 +7,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,300;1,500;1,600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .odtu-red { background-color: #D32F2F; }
-        .odtu-text-red { color: #D32F2F; }
-        /* Fontu tüm sayfaya uyguluyoruz */
-        body { font-family: 'Exo 2', sans-serif; }
-        .chat-container::-webkit-scrollbar { width: 5px; }
-        .chat-container::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-    </style>
+        ./* Ana sayfadaki fontu çekiyoruz */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap');
+
+.odtu-red { background-color: #D32F2F; }
+
+/* METU BOT Yazı Stili */
+.logo-text-wrapper {
+    display: flex;
+    align-items: center;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 2rem; /* Header büyüklüğüne uygun boyut */
+    letter-spacing: .08em; /* Ana sayfadaki o karakteristik boşluk */
+    text-transform: uppercase;
+}
+
+.logo-text-wrapper .black-part {
+    color: #111; /* METU kısmı siyah */
+}
+
+.logo-text-wrapper .red-part {
+    color: #D93025; /* BOT kısmı kırmızı */
+}
+<style>
 </head>
 <body class="bg-gray-50 h-screen flex flex-col">
 
