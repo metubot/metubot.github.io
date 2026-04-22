@@ -4,53 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>METUbot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@1,300;1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@700&family=Exo+2:ital,wght@1,300;1,500;1,600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        ./* Ana sayfadaki fontu çekiyoruz */
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@700&display=swap');
+        .odtu-red { background-color: #D32F2F; }
+        
+        /* İstediğin METU BOT Yazı Stili */
+        .nav-logo-style {
+            display: flex;
+            align-items: center;
+            font-family: 'Barlow', sans-serif;
+            font-weight: 700;
+            font-size: 1.8rem; /* Header boyutuna göre ayarlandı */
+            letter-spacing: .08em; /* Ekran görüntüsündeki o genişlik */
+            text-transform: uppercase;
+        }
 
-.odtu-red { background-color: #D32F2F; }
+        .nav-logo-style .black-part {
+            color: #111; /* METU kısmı siyah */
+        }
 
-/* METU BOT Yazı Stili */
-.logo-text-wrapper {
-    display: flex;
-    align-items: center;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 700;
-    font-size: 2rem; /* Header büyüklüğüne uygun boyut */
-    letter-spacing: .08em; /* Ana sayfadaki o karakteristik boşluk */
-    text-transform: uppercase;
-}
+        .nav-logo-style .red-part {
+            color: #D93025; /* BOT kısmı ana sayfa kırmızısı */
+        }
 
-.logo-text-wrapper .black-part {
-    color: #111; /* METU kısmı siyah */
-}
-
-.logo-text-wrapper .red-part {
-    color: #D93025; /* BOT kısmı kırmızı */
-}
-<style>
+        .odtu-text-red { color: #D32F2F; }
+    </style>
 </head>
 <body class="bg-gray-50 h-screen flex flex-col">
 
-   <header class="odtu-red text-white p-2 shadow-lg flex items-center justify-between min-h-[130px]">
-    <div class="flex items-center gap-4">
-        <div class="w-32 h-32 flex items-center justify-center">
-            <img src="odtu-amblem.png" alt="METU Logo" class="w-full h-full object-contain transform scale-110">
+    <header class="odtu-red text-white p-2 shadow-lg flex items-center justify-between min-h-[130px]">
+        <div class="flex items-center gap-2">
+            <div class="w-32 h-32 flex items-center justify-center">
+                <img src="odtu-amblem.png" alt="METU Logo" class="w-full h-full object-contain transform scale-110">
+            </div>
+            
+            <div class="flex flex-col">
+                <div class="nav-logo-style">
+                    <span class="black-part">METU</span>
+                    <span class="red-part">BOT</span>
+                </div>
+                <span class="text-[10px] italic opacity-50 uppercase tracking-[0.5em] mt-1 ml-1">AI Campus Assistant</span>
+            </div>
         </div>
         
-        <div class="logo-text-wrapper">
-            <span class="black-part">METU</span>
-            <span class="red-part">BOT</span>
+        <div class="hidden md:block mr-6 text-sm opacity-70 italic font-light bg-white/5 px-5 py-2 rounded-full border border-white/10">
+            METU Project
         </div>
-    </div>
-    
-    <div class="hidden md:block mr-6 text-sm opacity-70 italic font-light bg-white/5 px-5 py-2 rounded-full border border-white/10">
-        METU Project
-    </div>
-</header>
-
     </header>
 
     <main id="chat-window" class="flex-1 overflow-y-auto p-4 space-y-4 chat-container bg-white/50">
@@ -86,7 +86,6 @@
             addMessage(text, 'user');
             userInput.value = "";
             
-            // Botun kısa bir süre sonra cevap vermesi (Simülasyon)
             setTimeout(() => {
                 addMessage("Bunu hemen senin için araştırıyorum...", 'ai');
             }, 1000);
@@ -97,7 +96,6 @@
             wrapper.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
             
             const msgDiv = document.createElement('div');
-            // Kullanıcı mesajları koyu gri, Bot mesajları beyaz ve kırmızı çizgili
             msgDiv.className = sender === 'user' 
                 ? 'bg-gray-800 text-white p-4 rounded-2xl rounded-tr-none max-w-[80%] shadow-md text-sm italic' 
                 : 'bg-white border-l-4 border-[#D32F2F] text-gray-800 p-4 rounded-2xl rounded-tl-none max-w-[80%] shadow-sm text-sm';
@@ -105,22 +103,12 @@
             msgDiv.innerText = text;
             wrapper.appendChild(msgDiv);
             chatWindow.appendChild(wrapper);
-            
-            // Yeni mesaj gelince sayfayı aşağı kaydır
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
 
-        // Enter tuşuna basınca mesaj gönder
         userInput.addEventListener("keypress", (e) => { 
             if (e.key === "Enter") sendMessage(); 
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-        
