@@ -1,940 +1,166 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>METUbot — ODTÜ'nün Akıllı Kampüs Asistanı</title>
-<meta name="description" content="METUbot, ODTÜ öğrencilerinin yönetmelik sorularını 3 saniyede yanıtlayan, ODTÜClass duyurularını özetleyen ve topluluk etkinliklerini takip eden AI destekli kampüs uygulaması."/>
-<meta property="og:title" content="METUbot — ODTÜ'nün Akıllı Kampüs Asistanı"/>
-<meta property="og:description" content="500 sayfalık yönetmelikleri 3 saniyede yanıtla. Duyuruları kaçırma."/>
-<meta property="og:type" content="website"/>
-<meta property="og:url" content="https://metuapp.vercel.app"/>
-<meta name="twitter:card" content="summary_large_image"/>
-<link rel="canonical" href="https://metuapp.vercel.app"/>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>"/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"METUbot","applicationCategory":"EducationApplication","description":"ODTÜ öğrencileri için AI destekli kampüs asistanı","operatingSystem":"iOS, Android"}</script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
 <style>
-:root{
-  --navy:#0F2044;--navy2:#1A3A6E;--sky:#0EA5E9;--mint:#10B981;
-  --amber:#F59E0B;--red:#EF4444;--purple:#8B5CF6;
-  --bg:#F8FAFC;--white:#FFFFFF;--text:#0F172A;--sub:#475569;--border:#E2E8F0;
-  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--fb);color:var(--text);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{text-decoration:none}
-img{max-width:100%;height:auto;display:block}
+    :root {
+        --odtu-red: #D32F2F;
+        --dark: #121212;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: var(--dark); }
+    .heading-font { font-family: 'Syne', sans-serif; }
+    
+    /* Smooth Glassmorphism Effects */
+    .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(0,0,0,0.05); }
+    
+    /* Premium Gradient for Hero */
+    .hero-gradient {
+        background: radial-gradient(circle at top right, rgba(211, 47, 47, 0.08), transparent),
+                    radial-gradient(circle at bottom left, rgba(0, 0, 0, 0.02), transparent);
+    }
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
-nav.scrolled{box-shadow:0 4px 20px rgba(15,32,68,.08)}
-.nav-inner{max-width:1120px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:64px}
-.nav-logo{font-family:var(--fh);font-weight:800;font-size:1.3rem;color:var(--navy);display:flex;align-items:center;gap:6px}
-.nav-logo em{color:var(--sky);font-style:normal}
-.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
-.nav-links a{font-size:.9rem;font-weight:500;color:var(--sub);transition:color .2s}
-.nav-links a:hover{color:var(--navy)}
-.btn-nav{background:var(--navy);color:#fff;padding:9px 20px;border-radius:8px;font-size:.875rem;font-weight:600;transition:all .2s}
-.btn-nav:hover{background:var(--navy2);transform:translateY(-1px)}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
-.hamburger span{width:22px;height:2px;background:var(--navy);border-radius:2px;transition:.3s}
-.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--border);padding:16px 24px;flex-direction:column;gap:4px;z-index:999}
-.mobile-menu.open{display:flex}
-.mobile-menu a{color:var(--sub);font-size:1rem;font-weight:500;padding:10px 0;border-bottom:1px solid var(--border)}
-.mobile-menu .btn-nav{margin-top:8px;text-align:center}
+    /* Animated Button */
+    .btn-premium {
+        background: var(--odtu-red);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 20px -10px rgba(211, 47, 47, 0.4);
+    }
+    .btn-premium:hover { transform: translateY(-3px); box-shadow: 0 20px 30px -10px rgba(211, 47, 47, 0.4); }
 
-/* ── HERO ── */
-#hero{min-height:100vh;background:linear-gradient(135deg,#071428 0%,var(--navy) 40%,#1A3A6E 100%);display:flex;align-items:center;padding:100px 24px 80px;position:relative;overflow:hidden}
-.hero-glow{position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(14,165,233,.18) 0%,transparent 65%);pointer-events:none}
-.hero-glow2{position:absolute;bottom:-10%;left:-5%;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.1) 0%,transparent 65%);pointer-events:none}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(to bottom,transparent,black 15%,black 85%,transparent);pointer-events:none}
-.hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(14,165,233,.15);border:1px solid rgba(14,165,233,.3);color:#7DD3FC;padding:6px 14px;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:22px}
-.hero-badge::before{content:'';width:6px;height:6px;background:var(--sky);border-radius:50%;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.4rem);color:#FFFFFF !important;line-height:1.15;margin-bottom:20px;text-shadow:0 2px 12px rgba(0,0,0,.18)}
-.hero h1 em{color:var(--sky);font-style:normal}
-.hero-sub{font-size:1.05rem;color:#94A3B8;line-height:1.75;margin-bottom:36px;max-width:460px}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--sky);color:#fff;padding:13px 26px;border-radius:10px;font-size:.95rem;font-weight:700;border:none;cursor:pointer;font-family:var(--fb);display:inline-flex;align-items:center;gap:8px;transition:all .2s}
-.btn-primary:hover{background:#0284C7;transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,.35)}
-.btn-ghost{background:rgba(255,255,255,.08);color:#fff;padding:13px 26px;border-radius:10px;border:1px solid rgba(255,255,255,.2);font-size:.95rem;font-weight:600;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
-.btn-ghost:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
-.hero-stats{display:flex;gap:36px;margin-top:48px;flex-wrap:wrap}
-.stat-val{font-family:var(--fh);font-size:1.9rem;font-weight:800;color:#fff}
-.stat-lbl{font-size:.8rem;color:#64748B;margin-top:2px}
-
-/* Hero mockup */
-.hero-visual{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:22px;backdrop-filter:blur(8px);animation:float 4s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.mockup-topbar{display:flex;align-items:center;gap:7px;margin-bottom:20px}
-.dot{width:10px;height:10px;border-radius:50%}
-.mockup-label{color:rgba(255,255,255,.4);font-size:.78rem;margin-left:6px;font-weight:500}
-.chat{display:flex;flex-direction:column;gap:10px}
-.msg{padding:11px 15px;border-radius:12px;font-size:.88rem;line-height:1.55;max-width:90%}
-.msg-u{background:var(--sky);color:#fff;align-self:flex-end;border-radius:12px 12px 2px 12px}
-.msg-b{background:rgba(255,255,255,.1);color:#E2E8F0;align-self:flex-start;border-radius:12px 12px 12px 2px;border:1px solid rgba(255,255,255,.1)}
-.msg-b strong{color:#7DD3FC}
-.typing{display:flex;align-items:center;gap:5px;padding:12px 15px;align-self:flex-start}
-.typing span{width:7px;height:7px;background:#64748B;border-radius:50%;animation:typ .9s ease-in-out infinite}
-.typing span:nth-child(2){animation-delay:.15s}
-.typing span:nth-child(3){animation-delay:.3s}
-@keyframes typ{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
-
-/* ── SECTIONS ── */
-.sec{padding:96px 24px}
-.sec-inner{max-width:1120px;margin:0 auto}
-.sec-tag{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sky);display:block;margin-bottom:10px}
-.sec-title{font-family:var(--fh);font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);color:var(--navy);line-height:1.2;margin-bottom:14px}
-.sec-sub{font-size:1rem;color:var(--sub);max-width:540px;line-height:1.75}
-.center{text-align:center}
-.center .sec-sub{margin:0 auto}
-
-/* ── PROBLEM ── */
-#problem{background:var(--bg)}
-.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-top:56px}
-.problems{display:flex;flex-direction:column;gap:16px}
-.prob-item{display:flex;gap:14px;padding:18px;background:var(--white);border-radius:12px;border:1px solid var(--border);transition:all .2s}
-.prob-item:hover{box-shadow:0 6px 20px rgba(15,32,68,.07);transform:translateY(-2px)}
-.prob-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.prob-item h4{font-family:var(--fh);font-weight:700;font-size:.95rem;color:var(--navy);margin-bottom:3px}
-.prob-item p{font-size:.85rem;color:var(--sub);line-height:1.6}
-.sol-card{background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:20px;padding:32px;color:#fff;position:relative;overflow:hidden}
-.sol-card::before{content:'';position:absolute;top:-50px;right:-50px;width:220px;height:220px;background:radial-gradient(circle,rgba(14,165,233,.2),transparent 70%)}
-.sol-card h3{font-family:var(--fh);font-size:1.25rem;font-weight:800;margin-bottom:22px}
-.sol-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
-.sol-check{width:20px;height:20px;background:var(--mint);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.7rem;color:#fff;font-weight:700}
-.sol-row p{font-size:.9rem;color:#CBD5E1;line-height:1.55}
-.sol-row p strong{color:#fff}
-.compare-bar{margin-top:24px;padding:16px;background:rgba(255,255,255,.07);border-radius:10px;border:1px solid rgba(255,255,255,.12)}
-.compare-row{display:grid;grid-template-columns:1fr 70px 20px 80px;align-items:center;padding:6px 0}
-.compare-row:not(:last-child){border-bottom:1px solid rgba(255,255,255,.08)}
-.compare-lbl{font-size:.82rem;color:#94A3B8}
-.compare-arrow{text-align:center;color:#94A3B8}
-.before{color:#EF4444;font-weight:700;font-size:.88rem;text-align:right}
-.after{color:var(--mint);font-weight:700;font-size:.88rem;text-align:right}
-
-/* ── FEATURES ── */
-#features{background:var(--white)}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
-.feat-card{padding:26px;border-radius:14px;border:1px solid var(--border);background:var(--white);transition:all .25s;position:relative;overflow:hidden}
-.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
-.feat-card:hover{box-shadow:0 10px 28px rgba(15,32,68,.09);transform:translateY(-4px)}
-.feat-card:hover::before{transform:scaleX(1)}
-.fc-sky::before{background:var(--sky)}
-.fc-mint::before{background:var(--mint)}
-.fc-amber::before{background:var(--amber)}
-.fc-purple::before{background:var(--purple)}
-.feat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
-.feat-card h4{font-family:var(--fh);font-weight:700;font-size:.98rem;color:var(--navy);margin-bottom:7px}
-.feat-card p{font-size:.87rem;color:var(--sub);line-height:1.65}
-
-/* ── HOW ── */
-#how{background:var(--bg)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px;position:relative}
-.steps::before{content:'';position:absolute;top:30px;left:calc(16%);right:calc(16%);height:2px;background:linear-gradient(90deg,var(--sky),var(--mint));z-index:0}
-.step{text-align:center;position:relative;z-index:1;padding:0 8px}
-.step-num{width:60px;height:60px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--fh);font-size:1.35rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;border:4px solid var(--bg);box-shadow:0 0 0 3px var(--sky)}
-.step h4{font-family:var(--fh);font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:8px}
-.step p{font-size:.87rem;color:var(--sub);line-height:1.65}
-.steps-cta{text-align:center;margin-top:48px}
-.btn-dark{background:var(--navy);color:#fff;padding:13px 28px;border-radius:10px;font-size:.95rem;font-weight:700;border:none;cursor:pointer;font-family:var(--fb);display:inline-flex;align-items:center;gap:8px;transition:all .2s}
-.btn-dark:hover{background:var(--navy2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,32,68,.25)}
-
-/* ── PROOF ── */
-#proof{background:var(--white)}
-.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
-.proof-card{padding:26px;border-radius:14px;background:var(--bg);border:1px solid var(--border);transition:all .2s}
-.proof-card:hover{box-shadow:0 8px 24px rgba(15,32,68,.07);transform:translateY(-3px)}
-.stars{color:var(--amber);font-size:.95rem;letter-spacing:2px;margin-bottom:12px}
-.proof-text{font-size:.93rem;color:var(--text);line-height:1.72;margin-bottom:18px;font-style:italic}
-.proof-author{display:flex;align-items:center;gap:11px}
-.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88rem;color:#fff;flex-shrink:0}
-.pname{font-weight:600;font-size:.88rem;color:var(--navy)}
-.prole{font-size:.78rem;color:var(--sub)}
-.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px;padding:32px;background:var(--navy);border-radius:20px}
-.metric{text-align:center}
-.metric-val{font-family:var(--fh);font-size:2rem;font-weight:800;color:var(--sky)}
-.metric-lbl{font-size:.82rem;color:#94A3B8;margin-top:3px}
-
-/* ── WAITLIST ── */
-#waitlist{background:linear-gradient(135deg,#071428,var(--navy));position:relative;overflow:hidden}
-#waitlist::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 110%,rgba(14,165,233,.12),transparent);pointer-events:none}
-.waitlist-inner{max-width:560px;margin:0 auto;text-align:center;position:relative;z-index:1}
-#waitlist .sec-title{color:#fff}
-#waitlist .sec-sub{color:#94A3B8;margin:0 auto 36px}
-.wl-form{display:flex;flex-direction:column;gap:14px}
-.form-row{display:flex;gap:10px}
-.form-row input{flex:1;min-width:0}
-input[type="email"],input[type="text"]{width:100%;padding:13px 16px;border-radius:9px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:.95rem;font-family:var(--fb);transition:border-color .2s;outline:none}
-input[type="email"]:focus,input[type="text"]:focus{border-color:var(--sky)}
-input::placeholder{color:rgba(255,255,255,.4)}
-.wl-form .btn-primary{width:100%;justify-content:center;font-size:1rem;padding:14px}
-.privacy{font-size:.78rem;color:#64748B;margin-top:12px}
-.privacy a{color:#94A3B8;text-decoration:underline}
-.success-msg{display:none;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#34D399;padding:14px;border-radius:10px;font-size:.9rem;font-weight:600;text-align:center;margin-top:12px}
-.form-error{font-size:.8rem;color:#F87171;margin-top:4px;display:none}
-
-/* ── PRICING ── */
-#pricing{background:var(--bg)}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:52px}
-.price-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:30px;transition:all .25s;position:relative}
-.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(15,32,68,.1)}
-.price-card.featured{border-color:var(--sky);background:linear-gradient(135deg,#EFF6FF,var(--white));box-shadow:0 8px 24px rgba(14,165,233,.15)}
-.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--sky);color:#fff;padding:4px 16px;border-radius:999px;font-size:.75rem;font-weight:700;white-space:nowrap}
-.price-name{font-family:var(--fh);font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:8px}
-.price-val{font-family:var(--fh);font-size:2.2rem;font-weight:800;color:var(--navy)}
-.price-val span{font-size:1rem;font-weight:500;color:var(--sub)}
-.price-desc{font-size:.85rem;color:var(--sub);margin:10px 0 20px;line-height:1.6}
-.price-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
-.price-list li{display:flex;align-items:flex-start;gap:9px;font-size:.87rem;color:var(--sub)}
-.price-list li::before{content:'✓';color:var(--mint);font-weight:700;flex-shrink:0}
-.btn-price{display:block;text-align:center;padding:12px;border-radius:9px;font-size:.9rem;font-weight:700;cursor:pointer;border:none;font-family:var(--fb);transition:all .2s}
-.btn-price-outline{background:transparent;border:1.5px solid var(--navy);color:var(--navy)}
-.btn-price-outline:hover{background:var(--navy);color:#fff}
-.btn-price-filled{background:var(--sky);color:#fff}
-.btn-price-filled:hover{background:#0284C7;transform:translateY(-1px)}
-
-/* ── FAQ ── */
-#faq{background:var(--white)}
-.faq-list{max-width:720px;margin:52px auto 0;display:flex;flex-direction:column;gap:12px}
-.faq-item{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--white)}
-.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:none;border:none;cursor:pointer;font-family:var(--fb);font-size:.97rem;font-weight:600;color:var(--navy);text-align:left;gap:12px;transition:background .2s}
-.faq-q:hover{background:var(--bg)}
-.faq-q svg{width:18px;height:18px;flex-shrink:0;transition:transform .3s;color:var(--sky)}
-.faq-item.open .faq-q svg{transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s}
-.faq-item.open .faq-a{max-height:300px}
-.faq-a p{padding:0 20px 18px;font-size:.9rem;color:var(--sub);line-height:1.75}
-.faq-help{text-align:center;margin-top:28px;font-size:.9rem;color:var(--sub)}
-.faq-help a{color:var(--sky);font-weight:600}
-
-/* ── FOOTER ── */
-footer{background:var(--navy);padding:56px 24px 28px}
-.footer-inner{max-width:1120px;margin:0 auto}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.footer-brand{font-family:var(--fh);font-weight:800;font-size:1.2rem;color:#fff;margin-bottom:14px;display:block}
-.footer-brand em{color:var(--sky);font-style:normal}
-.footer-desc{font-size:.88rem;color:#94A3B8;line-height:1.7;margin-bottom:20px}
-.social-links{display:flex;gap:12px}
-.social-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#94A3B8;font-size:.9rem;cursor:default}
-.footer-col h5{font-family:var(--fh);font-weight:700;font-size:.85rem;color:#fff;margin-bottom:14px;letter-spacing:.05em;text-transform:uppercase}
-.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
-.footer-col ul li a{font-size:.87rem;color:#64748B;transition:color .2s}
-.footer-col ul li a:hover{color:#94A3B8}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;gap:12px}
-.footer-copy{font-size:.82rem;color:#475569}
-.footer-email{font-size:.82rem;color:#64748B}
-.footer-email a{color:#7DD3FC}
-
-/* ── COOKIE BANNER ── */
-.cookie-banner{position:fixed;bottom:20px;left:20px;right:20px;max-width:480px;background:var(--navy);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 8px 32px rgba(0,0,0,.3);z-index:2000;transition:transform .4s,opacity .4s}
-.cookie-banner.hidden{transform:translateY(120%);opacity:0;pointer-events:none}
-.cookie-text{font-size:.82rem;color:#94A3B8;flex:1;line-height:1.5}
-.cookie-text a{color:var(--sky)}
-.btn-cookie{background:var(--sky);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:var(--fb)}
-
-/* ── ANIMATIONS ── */
-.fade-up{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
-.fade-up.visible{opacity:1;transform:translateY(0)}
-.stagger-1{transition-delay:.1s}
-.stagger-2{transition-delay:.2s}
-.stagger-3{transition-delay:.3s}
-.stagger-4{transition-delay:.4s}
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .hero-inner,.problem-grid{grid-template-columns:1fr;gap:40px}
-  .hero-visual{display:none}
-  .features-grid,.proof-grid,.pricing-grid{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:1fr;gap:32px}
-  .steps::before{display:none}
-  .metrics-row{grid-template-columns:repeat(2,1fr)}
-  .footer-top{grid-template-columns:1fr 1fr}
-  .footer-col:first-child{grid-column:1/-1}
-  .nav-links{display:none}
-  .hamburger{display:flex}
-  #modes .sec-inner>div:nth-child(2){grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .features-grid,.proof-grid,.pricing-grid{grid-template-columns:1fr}
-  .metrics-row{grid-template-columns:1fr 1fr}
-  .form-row{flex-direction:column}
-  .footer-top{grid-template-columns:1fr}
-  .footer-bottom{flex-direction:column;align-items:flex-start}
-  .hero-stats{gap:24px}
-  .hero-cta{flex-direction:column}
-  .btn-primary,.btn-ghost{justify-content:center}
-}
+    /* Floating Animation for Mockup */
+    .float { animation: floating 6s ease-in-out infinite; }
+    @keyframes floating {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(1deg); }
+    }
 </style>
 </head>
-<body>
+<body class="selection:bg-red-100 selection:text-red-900">
 
-<!-- ── NAV ── -->
-<nav id="navbar" role="navigation" aria-label="Ana navigasyon">
-  <div class="nav-inner">
-    <a href="#hero" class="nav-logo" aria-label="METUbot Ana Sayfa">🎓 METU<em>bot</em></a>
-    <ul class="nav-links">
-      <li><a href="#problem">Sorun</a></li>
-      <li><a href="#modes">Modlar</a></li>
-      <li><a href="#features">Özellikler</a></li>
-      <li><a href="#how">Nasıl Çalışır</a></li>
-      <li><a href="#pricing">Fiyatlar</a></li>
-      <li><a href="#faq">SSS</a></li>
-      <li><a href="#waitlist" class="btn-nav">Erken Erişim</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menüyü aç" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobil menü">
-  <a href="#problem">Sorun</a>
-  <a href="#modes">Modlar</a>
-  <a href="#features">Özellikler</a>
-  <a href="#how">Nasıl Çalışır</a>
-  <a href="#pricing">Fiyatlar</a>
-  <a href="#faq">SSS</a>
-  <a href="#waitlist" class="btn-nav">Erken Erişim Al</a>
-</div>
-
-<!-- ── HERO ── -->
-<section id="hero" role="banner">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <div class="hero-glow2" aria-hidden="true"></div>
-  <div class="hero-grid-bg" aria-hidden="true"></div>
-  <div class="hero-inner">
-    <div class="hero-content fade-up">
-      <div class="hero-badge" aria-label="Durum: Erken Erişim">Erken Erişim Açık</div>
-      <h1>Üniversitede bilgiye ulaşmak artık <em>3 saniye</em> sürer</h1>
-      <p class="hero-sub">Araştırmamıza katılan öğrencilerin %56.8'i bir sorunun cevabını bulmak için 20 dakikadan fazla harcıyor. METUbot, yönetmelik bilgisine anında erişim sağlamayı, duyuruları takip etmeyi ve kampüs hayatını kolaylaştırmayı hedefleyen AI destekli bir asistan.</p>
-      <div class="hero-cta">
-        <a href="#waitlist" class="btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          Erken Erişim İste
-        </a>
-        <a href="#how" class="btn-ghost">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
-          Nasıl Çalışır?
-        </a>
-      </div>
-      <div class="hero-stats" role="list" aria-label="Araştırma istatistikleri">
-        <div class="stat" role="listitem">
-          <div class="stat-val">88</div>
-          <div class="stat-lbl">Ankete Katılan Öğrenci</div>
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="odtu-amblem.png" class="h-10 w-auto" alt="Logo">
+                <span class="heading-font font-800 text-xl tracking-tight uppercase">METU<span class="text-[#D32F2F]">bot</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium opacity-70">
+                <a href="#problem" class="hover:text-[#D32F2F] transition-colors">Sorun</a>
+                <a href="#features" class="hover:text-[#D32F2F] transition-colors">Özellikler</a>
+                <a href="#pricing" class="hover:text-[#D32F2F] transition-colors">Fiyatlar</a>
+                <a href="chat.html" class="btn-premium text-white px-6 py-2.5 rounded-full shadow-lg shadow-red-500/20">Hemen Dene</a>
+            </div>
         </div>
-        <div class="stat" role="listitem">
-          <div class="stat-val">%86.4</div>
-          <div class="stat-lbl">AI Asistanı Kullanmak İster</div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 overflow-hidden hero-gradient">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+                <div class="inline-block px-4 py-1.5 rounded-full bg-red-50 text-[#D32F2F] text-xs font-bold tracking-widest uppercase mb-6">
+                    Erken Erişim Açık
+                </div>
+                <h1 class="heading-font text-6xl lg:text-7xl leading-[1.1] mb-8 font-800 tracking-tight">
+                    Üniversitede bilgiye ulaşmak artık <span class="text-[#D32F2F]">3 saniye</span> sürer
+                </h1>
+                <p class="text-lg text-gray-500 leading-relaxed mb-10 max-w-lg">
+                    Araştırmamıza katılan öğrencilerin %56.8'i bir sorunun cevabını bulmak için 20 dakikadan fazla harcıyor. METUbot, yönetmelik bilgisine anında erişim sağlayan AI asistanınızdır.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="chat.html" class="btn-premium text-white px-10 py-4 rounded-2xl font-bold text-lg">
+                        Hemen Başla
+                    </a>
+                    <a href="#how" class="px-10 py-4 rounded-2xl font-bold text-lg border border-gray-200 hover:bg-gray-50 transition-all">
+                        Nasıl Çalışır?
+                    </a>
+                </div>
+                
+                <div class="mt-16 flex gap-12 border-t border-gray-100 pt-10">
+                    <div>
+                        <div class="text-3xl font-bold">88</div>
+                        <div class="text-xs uppercase tracking-widest text-gray-400 mt-1">Anket Katılımcı</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold">%86.4</div>
+                        <div class="text-xs uppercase tracking-widest text-gray-400 mt-1">AI İsteyen Oranı</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative float">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl p-4 border border-gray-100">
+                    <div class="bg-gray-50 rounded-[2rem] overflow-hidden p-6 min-h-[400px] flex flex-col justify-end">
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded-2xl rounded-bl-none shadow-sm max-w-[80%] border border-gray-100">
+                                <p class="text-sm font-semibold text-[#D32F2F] mb-1 italic">METUbot</p>
+                                <p class="text-sm text-gray-600 leading-relaxed">FF aldıysan dersi tekrar alabilir veya danışmanınla görüşebilirsin. Kaynak: Madde 27/b</p>
+                            </div>
+                            <div class="bg-[#D32F2F] text-white p-4 rounded-2xl rounded-br-none self-end ml-auto max-w-[70%]">
+                                <p class="text-sm">FF aldım, ne yapabilirim?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-red-50 rounded-full blur-3xl opacity-50"></div>
+            </div>
         </div>
-        <div class="stat" role="listitem">
-          <div class="stat-val">31</div>
-          <div class="stat-lbl">Üniversiteden Katılımcı</div>
+    </section>
+
+    <section id="problem" class="py-24 bg-[#121212] text-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-2xl mb-20">
+                <h2 class="heading-font text-4xl font-800 mb-6 italic">Bilgiye ulaşmak neden bu kadar zor?</h2>
+                <p class="text-gray-400 text-lg">31 üniversite ve 45'ten fazla bölümden gelen veriler, dijital kampüs deneyiminin iyileşmesi gerektiğini söylüyor.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="text-3xl mb-6">📄</div>
+                    <h4 class="font-bold mb-3 text-lg">500+ Sayfa Yönetmelik</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">Öğrencilerin %56.8'i tek bir cevap için 20 dakikadan fazla harcıyor.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
+                    <div class="text-3xl mb-6">🔔</div>
+                    <h4 class="font-bold mb-3 text-lg">Kaçırılan Duyurular</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">Öğrencilerin %68'i duyuruları düzenli takip edemiyor.</p>
+                </div>
+                <div class="p-8 rounded-3xl bg-[#D32F2F] text-white lg:col-span-2">
+                    <h4 class="heading-font text-2xl font-800 mb-4 italic">💡 METUbot Çözümü</h4>
+                    <p class="mb-6 opacity-90">Tüm süreçleri 3 saniyeye indiren, ODTÜ odaklı yapay zeka deneyimi.</p>
+                    <div class="flex items-center gap-4 text-sm font-bold">
+                        <span class="px-4 py-2 bg-black/20 rounded-full">✓ CampusBot</span>
+                        <span class="px-4 py-2 bg-black/20 rounded-full">✓ Akıllı Bildirim</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- Mockup -->
-    <div class="hero-visual fade-up stagger-2" aria-label="METUbot önizleme" role="img">
-      <div class="mockup-topbar" aria-hidden="true">
-        <div class="dot" style="background:#EF4444"></div>
-        <div class="dot" style="background:#F59E0B"></div>
-        <div class="dot" style="background:#10B981"></div>
-        <span class="mockup-label">METUbot — CampusBot</span>
-      </div>
-      <div class="chat" aria-label="Örnek sohbet">
-        <div class="msg msg-u">FF aldım, ne yapabilirim?</div>
-        <div class="msg msg-b">
-          <strong>FF aldıysan 3 seçeneğin var:</strong><br><br>
-          1️⃣ Dersi tekrar alabilirsin (max 2. kez)<br>
-          2️⃣ Muafiyet sınavına girebilirsin<br>
-          3️⃣ Akademik danışmanınla görüşebilirsin<br><br>
-          <strong>Kaynak:</strong> ODTÜ Lisans Yönetmeliği, Madde 27/b
+    </section>
+
+    <section class="py-24 text-center">
+        <div class="max-w-3xl mx-auto px-6">
+            <h2 class="heading-font text-5xl font-800 mb-8 tracking-tight italic">Hızlanmaya hazır mısın?</h2>
+            <a href="chat.html" class="btn-premium text-white px-12 py-5 rounded-[2rem] font-bold text-xl inline-block">
+                METUbot'u Ücretsiz Dene
+            </a>
+            <p class="mt-8 text-gray-400 text-sm italic">Beta sürümü tüm ODTÜlüler için sınırlı süreliğine ücretsizdir.</p>
         </div>
-        <div class="typing" aria-label="Yazıyor...">
-          <span></span><span></span><span></span>
+    </section>
+
+    <footer class="py-12 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-3">
+                <img src="odtu-amblem.png" class="h-6 opacity-50 grayscale hover:grayscale-0 transition-all" alt="Logo">
+                <span class="text-sm font-bold opacity-30 italic">© 2026 METUbot Project</span>
+            </div>
+            <div class="flex gap-8 text-xs font-bold tracking-widest uppercase opacity-40">
+                <a href="#">Gizlilik</a>
+                <a href="#">Kullanım</a>
+                <a href="mailto:hello@metubot.co">İletişim</a>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </footer>
 
-<!-- ── PROBLEM & SOLUTION ── -->
-<section class="sec" id="problem">
-  <div class="sec-inner">
-    <div class="fade-up">
-      <span class="sec-tag">Sorun</span>
-      <h2 class="sec-title">Üniversitede bilgiye ulaşmak neden bu kadar zor?</h2>
-      <p class="sec-sub">88 üniversite öğrencisiyle yürüttüğümüz araştırma, bilgiye erişimin ciddi bir sorun olduğunu ortaya koydu. <strong>31 üniversite</strong>, 45'ten fazla bölüm — sorun ODTÜ'ye özel değil, tüm üniversitelerde var.</p>
-    </div>
-    <div class="problem-grid">
-      <div class="problems fade-up stagger-1" role="list">
-        <article class="prob-item" role="listitem">
-          <div class="prob-icon" style="background:#FEF2F2" aria-hidden="true">📄</div>
-          <div>
-            <h4>500+ Sayfalık Yönetmelikler</h4>
-            <p>Araştırmamıza göre öğrencilerin <strong>%56.8'i</strong> bir sorunun cevabını bulmak için 20 dakikadan fazla harcıyor. Birçoğu aramaktan vazgeçiyor — sorun yokluğundan değil, zahmetinden.</p>
-          </div>
-        </article>
-        <article class="prob-item" role="listitem">
-          <div class="prob-icon" style="background:#FFFBEB" aria-hidden="true">🔔</div>
-          <div>
-            <h4>Kaçırılan ODTÜClass Duyuruları</h4>
-            <p>Araştırmamızda öğrencilerin <strong>%68'i</strong> duyuruları düzenli takip edemediğini söyledi. Önemli tarihler gözden kaçıyor.</p>
-          </div>
-        </article>
-        <article class="prob-item" role="listitem">
-          <div class="prob-icon" style="background:#F0FDF4" aria-hidden="true">🏛️</div>
-          <div>
-            <h4>Öğrenci İşleri Kuyruğu</h4>
-            <p>Araştırmamızda katılımcıların <strong>%42.1'i</strong> öğrenci işlerini yetersiz buluyor. Tekrarlayan sorular iş yükünü artırıyor; METUbot bu yükü azaltmayı hedefliyor.</p>
-          </div>
-        </article>
-        <article class="prob-item" role="listitem">
-          <div class="prob-icon" style="background:#EFF6FF" aria-hidden="true">🎭</div>
-          <div>
-            <h4>Topluluk Bilgisi Dağınık</h4>
-            <p>Kulüp etkinlikleri Instagram, duyurular WhatsApp, kayıtlar form — hiçbir şey bir arada değil.</p>
-          </div>
-        </article>
-      </div>
-      <div class="sol-card fade-up stagger-2" role="complementary" aria-label="METUbot Çözümü">
-        <h3>💡 METUbot ile Fark</h3>
-        <div class="sol-row">
-          <div class="sol-check" aria-hidden="true">✓</div>
-          <p><strong>CampusBot</strong> — Yönetmelik sorularını 3 saniyede, kaynak göstererek yanıtlar</p>
-        </div>
-        <div class="sol-row">
-          <div class="sol-check" aria-hidden="true">✓</div>
-          <p><strong>Akıllı Bildirim</strong> — ODTÜClass duyurularını AI ile filtreler, önemli olanı bildirir</p>
-        </div>
-        <div class="sol-row">
-          <div class="sol-check" aria-hidden="true">✓</div>
-          <p><strong>Topluluk Merkezi</strong> — Etkinlikler, kayıtlar ve öğrenme özeti tek ekranda</p>
-        </div>
-        <div class="sol-row">
-          <div class="sol-check" aria-hidden="true">✓</div>
-          <p><strong>Kişiselleştirilmiş</strong> — Her öğrencinin takvimi ve topluluğu farklı, uygulama buna göre uyum sağlar</p>
-        </div>
-        <div class="compare-bar" role="table" aria-label="Önce ve sonra karşılaştırması">
-          <div class="compare-row" role="row">
-            <span class="compare-lbl" role="rowheader">Yönetmelik araması</span>
-            <span class="before" role="cell">~15 dk</span>
-            <span class="compare-arrow">→</span>
-            <span class="after" role="cell">3 saniye</span>
-          </div>
-          <div class="compare-row" role="row">
-            <span class="compare-lbl" role="rowheader">Kaçırılan duyuru</span>
-            <span class="before" role="cell">%68</span>
-            <span class="compare-arrow">→</span>
-            <span class="after" role="cell">%0</span>
-          </div>
-          <div class="compare-row" role="row">
-            <span class="compare-lbl" role="rowheader">Platform sayısı</span>
-            <span class="before" role="cell">6+ uygulama</span>
-            <span class="compare-arrow">→</span>
-            <span class="after" role="cell">Tek uygulama</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── METUBOT MODLARI ── -->
-<section class="sec" id="modes" style="background:var(--navy);overflow:hidden;position:relative">
-  <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(14,165,233,.15),transparent 70%);pointer-events:none"></div>
-  <div class="sec-inner">
-    <div class="center fade-up">
-      <span class="sec-tag" style="color:#7DD3FC">Akıllı Modlar</span>
-      <h2 class="sec-title" style="color:#fff">Konuya göre kendiliğinden uyum sağlar</h2>
-      <p class="sec-sub" style="color:#94A3B8;margin:0 auto 48px">Sohbet tonunda konuşursun — yönetmelik mi soruyorsun, topluluk etkinliği mi arıyorsun? METUbot konuyu anlayıp otomatik olarak doğru moda geçer.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" class="fade-up">
-
-      <div style="background:linear-gradient(135deg,#1e3a6e,#0f2044);border:1px solid rgba(14,165,233,.25);border-radius:16px;padding:24px;border-top:3px solid #0EA5E9">
-        <div style="font-size:1.6rem;margin-bottom:12px">📋</div>
-        <div style="font-family:var(--fh);font-weight:700;color:#7DD3FC;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Yönetmelik Bot</div>
-        <h4 style="font-family:var(--fh);color:#fff;font-size:1rem;margin-bottom:8px">Mezuniyet, Devamsızlık, Yatay Geçiş...</h4>
-        <p style="font-size:.85rem;color:#94A3B8;line-height:1.6">Her yönetmelik konusunun kendine özgü teması var. Devamsızlık sorularında farklı, yatay geçişte farklı bir deneyim sunar.</p>
-      </div>
-
-      <div style="background:linear-gradient(135deg,#14532d,#052e16);border:1px solid rgba(16,185,129,.25);border-radius:16px;padding:24px;border-top:3px solid #10B981">
-        <div style="font-size:1.6rem;margin-bottom:12px">🎭</div>
-        <div style="font-family:var(--fh);font-weight:700;color:#6EE7B7;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Topluluk Bot</div>
-        <h4 style="font-family:var(--fh);color:#fff;font-size:1rem;margin-bottom:8px">Kulüp içeriğine göre kişiselleşir</h4>
-        <p style="font-size:.85rem;color:#94A3B8;line-height:1.6">IEEE'deysen teknik, Tiyatro Kulübü'ndeysen sanatsal bir deneyim. Her topluluğun kendi içeriğine bağlı özgün bir tema.</p>
-      </div>
-
-      <div style="background:linear-gradient(135deg,#581c87,#2e1065);border:1px solid rgba(139,92,246,.25);border-radius:16px;padding:24px;border-top:3px solid #8B5CF6">
-        <div style="font-size:1.6rem;margin-bottom:12px">🗺️</div>
-        <div style="font-family:var(--fh);font-weight:700;color:#C4B5FD;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Kampüs Bot</div>
-        <h4 style="font-family:var(--fh);color:#fff;font-size:1rem;margin-bottom:8px">Rota, fiş, kantin, etkinlik</h4>
-        <p style="font-size:.85rem;color:#94A3B8;line-height:1.6">Kampüste anlık rehber. Derse gitmeden önce rota, çıkışta en yakın şarj noktası — sohbet havasında.</p>
-      </div>
-
-    </div>
-
-    <div style="margin-top:32px;padding:20px 24px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;display:flex;align-items:center;gap:16px" class="fade-up">
-      <div style="font-size:1.4rem;flex-shrink:0">🔗</div>
-      <p style="font-size:.92rem;color:#CBD5E1;line-height:1.6;margin:0">METUbot şu an bağımsız bir uygulama olarak geliştiriliyor. İlerleyen dönemde <strong style="color:#7DD3FC">METUApp'in bir özelliği olarak</strong> entegre edilmesi planlanıyor — kampüs süper uygulamasının içinde, her yerde erişilebilir.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── FEATURES ── -->
-<section class="sec" id="features">
-  <div class="sec-inner">
-    <div class="center fade-up">
-      <span class="sec-tag">Özellikler</span>
-      <h2 class="sec-title">Kampüs hayatının tamamı, tek yerde</h2>
-      <p class="sec-sub">Dört temel modül, ODTÜ öğrencisinin günlük ihtiyaçlarını karşılayacak şekilde tasarlandı.</p>
-    </div>
-    <div class="features-grid" role="list">
-      <article class="feat-card fc-sky fade-up stagger-1" role="listitem">
-        <div class="feat-icon" style="background:#EFF6FF" aria-hidden="true">🤖</div>
-        <h4>CampusBot</h4>
-        <p>ODTÜ yönetmelikleriyle eğitilmiş AI asistan. "FF aldım ne olur?" gibi sorulara kaynak göstererek yanıt verir.</p>
-      </article>
-      <article class="feat-card fc-amber fade-up stagger-2" role="listitem">
-        <div class="feat-icon" style="background:#FFFBEB" aria-hidden="true">📢</div>
-        <h4>Akıllı Duyuru Özeti</h4>
-        <p>ODTÜClass duyurularını AI ile filtreler. "Bugünkü önemli haberler" bildirimi her sabah gelir, kritik tarihler kaçmaz.</p>
-      </article>
-      <article class="feat-card fc-mint fade-up stagger-3" role="listitem">
-        <div class="feat-icon" style="background:#F0FDF4" aria-hidden="true">🎭</div>
-        <h4>Topluluk Merkezi</h4>
-        <p>Üye olduğun kulüplerin etkinlikleri otomatik olarak takibinde. Etkinlik biter, AI öğrenme özeti ve sorular gönderir.</p>
-      </article>
-      <article class="feat-card fc-purple fade-up stagger-1" role="listitem">
-        <div class="feat-icon" style="background:#F5F3FF" aria-hidden="true">🗺️</div>
-        <h4>Kampüs Rehberi</h4>
-        <p>Dersine en hızlı rota, en yakın şarj noktası, kantin yoğunluğu. Kampüste kaybolmak artık tarih.</p>
-      </article>
-      <article class="feat-card fc-sky fade-up stagger-2" role="listitem">
-        <div class="feat-icon" style="background:#EFF6FF" aria-hidden="true">📋</div>
-        <h4>Evrak & Süreç Rehberi</h4>
-        <p>Burs başvurusu, staj formu, mazeret bildirimi — her adım açıklanır, hangi belgeyi nereye vereceğini bilirsin.</p>
-      </article>
-      <article class="feat-card fc-amber fade-up stagger-3" role="listitem">
-        <div class="feat-icon" style="background:#FFFBEB" aria-hidden="true">🔔</div>
-        <h4>Kaynak Göstererek Yanıt</h4>
-        <p>Genel bir cevap değil, hangi yönetmeliğin hangi maddesine dayandığını gören yanıtlar. "Madde 27/b" gibi — doğrulanabilir, güvenilir.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ── HOW IT WORKS ── -->
-<section class="sec" id="how">
-  <div class="sec-inner">
-    <div class="center fade-up">
-      <span class="sec-tag">Nasıl Çalışır</span>
-      <h2 class="sec-title">3 adımda başla</h2>
-      <p class="sec-sub">ODTÜ .edu.tr mailin varsa, başlamak için başka bir şeye ihtiyacın yok.</p>
-    </div>
-    <div class="steps" role="list">
-      <div class="step fade-up stagger-1" role="listitem">
-        <div class="step-num" aria-hidden="true">1</div>
-        <h4>ODTÜ Hesabınla Giriş Yap</h4>
-        <p>ODTÜ .edu.tr mailinle ODTÜClass şifreni kullanarak giriş yap. Güvenli, hızlı — ekstra form yok.</p>
-      </div>
-      <div class="step fade-up stagger-2" role="listitem">
-        <div class="step-num" aria-hidden="true">2</div>
-        <h4>Profilini Tamamla</h4>
-        <p>Bölümünü, üye olduğun toplulukları ve ilgi alanlarını seç. Uygulama sana özel hale gelir.</p>
-      </div>
-      <div class="step fade-up stagger-3" role="listitem">
-        <div class="step-num" aria-hidden="true">3</div>
-        <h4>Soruyu Sor, Cevabı Al</h4>
-        <p>Türkçe veya İngilizce, doğal dilde sor. AI yanıtlar, kaynağı gösterir, seni doğru yere yönlendirir.</p>
-      </div>
-    </div>
-    <div class="steps-cta fade-up">
-      <a href="#waitlist" class="btn-dark">Hemen Erken Erişim İste →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── SOCIAL PROOF ── -->
-<section class="sec" id="proof">
-  <div class="sec-inner">
-    <div class="center fade-up">
-      <span class="sec-tag">Araştırma Bulguları</span>
-      <h2 class="sec-title">Öğrenciler ne yaşıyor?</h2>
-      <p class="sec-sub">88 katılımcıyla yürüttüğümüz ankette öğrencilerin dile getirdiği sorunlar. METUbot bu sorunları çözmeyi hedefliyor.</p>
-    </div>
-    <div class="proof-grid" role="list">
-      <article class="proof-card fade-up stagger-1" role="listitem">
-        <div class="stars" aria-label="Araştırma bulgusu">📋</div>
-        <p class="proof-text">"Devamsızlık sınırını aştığımda ne yapabileceğimi anlamak için saatler harcadım. Yönetmelikteki bilgiye kolayca ulaşabilseydim bu süreyi çok kısaltabilirdim."</p>
-        <div class="proof-author">
-          <div class="avatar" style="background:#0EA5E9" aria-hidden="true">A</div>
-          <div>
-            <div class="pname">Anonim Katılımcı</div>
-            <div class="prole">3. Sınıf — Devlet Üniversitesi</div>
-          </div>
-        </div>
-      </article>
-      <article class="proof-card fade-up stagger-2" role="listitem">
-        <div class="stars" aria-label="Araştırma bulgusu">📢</div>
-        <p class="proof-text">"ODTÜClass duyurularını takip etmek çok zorlaştı. Önemli tarihleri kaçırıyorum çünkü onlarca duyuru içinde hangisinin kritik olduğunu anlayamıyorum."</p>
-        <div class="proof-author">
-          <div class="avatar" style="background:#10B981" aria-hidden="true">B</div>
-          <div>
-            <div class="pname">Anonim Katılımcı</div>
-            <div class="prole">2. Sınıf — ODTÜ</div>
-          </div>
-        </div>
-      </article>
-      <article class="proof-card fade-up stagger-3" role="listitem">
-        <div class="stars" aria-label="Araştırma bulgusu">🏛️</div>
-        <p class="proof-text">"Yurt yönetmeliğini anlamak için öğrenci işlerine defalarca gitmek zorunda kaldım. Sorularımın bir kısmına orada da net yanıt bulamadım."</p>
-        <div class="proof-author">
-          <div class="avatar" style="background:#8B5CF6" aria-hidden="true">C</div>
-          <div>
-            <div class="pname">Anonim Katılımcı</div>
-            <div class="prole">Hazırlık — Devlet Üniversitesi</div>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div class="metrics-row fade-up" role="list" aria-label="Araştırma istatistikleri">
-      <div class="metric" role="listitem">
-        <div class="metric-val">88</div>
-        <div class="metric-lbl">Ankete Katılan Öğrenci</div>
-      </div>
-      <div class="metric" role="listitem">
-        <div class="metric-val">%86.4</div>
-        <div class="metric-lbl">AI Asistanı Kullanmak İster</div>
-      </div>
-      <div class="metric" role="listitem">
-        <div class="metric-val">%56.8</div>
-        <div class="metric-lbl">20 Dk'dan Fazla Harcıyor</div>
-      </div>
-      <div class="metric" role="listitem">
-        <div class="metric-val">%42.1</div>
-        <div class="metric-lbl">Öğrenci İşlerini Yetersiz Buluyor</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── WAITLIST ── -->
-<section class="sec" id="waitlist">
-  <div class="sec-inner">
-    <div class="waitlist-inner fade-up">
-      <span class="sec-tag" style="color:#7DD3FC">Erken Erişim</span>
-      <h2 class="sec-title">İlk kullananlardan ol</h2>
-      <p class="sec-sub">Listeye şimdi katıl, beta sürümüne öncelikli erişim kazan. Spam yok, sadece önemli güncellemeler.</p>
-      <form class="wl-form" id="waitlistForm" novalidate aria-label="Erken erişim formu">
-        <div class="form-row">
-          <input type="text" id="nameInput" name="name" placeholder="Adın" autocomplete="name" aria-label="Adın" aria-required="true"/>
-          <input type="email" id="emailInput" name="email" placeholder="ODTÜ e-posta adresin" autocomplete="email" aria-label="E-posta adresin" aria-required="true"/>
-        </div>
-        <div class="form-error" id="formError" role="alert" aria-live="polite">Lütfen geçerli bilgileri girin.</div>
-        <button type="submit" class="btn-primary" id="submitBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-          Listeye Katıl
-        </button>
-        <div class="success-msg" id="successMsg" role="status" aria-live="polite">🎉 Harika! Seni listeye ekledik. Beta başladığında sana haber vereceğiz.</div>
-        <p class="privacy">
-          Kaydolarak <a href="#privacy">Gizlilik Politikası</a>'nı kabul etmiş sayılırsın. KVKK kapsamında veriler korunur.
-          <input type="checkbox" id="gdprConsent" name="gdpr" style="margin-left:8px;vertical-align:middle" aria-label="KVKK onayı"/>
-          <label for="gdprConsent" style="font-size:.78rem;color:#64748B;cursor:pointer"> Kişisel verilerimin işlenmesine onay veriyorum</label>
-        </p>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ── PRICING ── -->
-<section class="sec" id="pricing">
-  <div class="sec-inner">
-    <div class="center fade-up">
-      <span class="sec-tag">Fiyatlandırma</span>
-      <h2 class="sec-title">Sana uygun plan</h2>
-      <p class="sec-sub">Beta sürecinde tüm özellikler ücretsiz. Lansman sonrası fiyatlandırma aşağıdaki gibi planlanıyor.</p>
-    </div>
-    <div class="pricing-grid fade-up stagger-1" role="list">
-      <article class="price-card" role="listitem">
-        <div class="price-name">Temel</div>
-        <div class="price-val">Ücretsiz</div>
-        <p class="price-desc">ODTÜ öğrencisi olman yeterli. AI asistan dahil temel özellikler ücretsiz.</p>
-        <ul class="price-list" aria-label="Temel plan özellikleri">
-          <li>CampusBot AI asistan (günlük 10 soru)</li>
-          <li>Günlük duyuru özeti</li>
-          <li>Kampüs haritası</li>
-          <li>1 topluluk takibi</li>
-        </ul>
-        <a href="#waitlist" class="btn-price btn-price-outline" role="button">Erken Erişim Al</a>
-      </article>
-      <article class="price-card featured" role="listitem" aria-label="Önerilen plan">
-        <div class="price-badge" aria-label="Önerilen">⭐ Önerilen</div>
-        <div class="price-name">Kampüs+</div>
-        <div class="price-val">₺20 <span>/ ay</span></div>
-        <p class="price-desc">Aktif öğrenciler için. Sınırsız AI asistan ve gelişmiş özellikler.</p>
-        <ul class="price-list" aria-label="Kampüs+ plan özellikleri">
-          <li>CampusBot AI asistan <strong>sınırsız</strong></li>
-          <li>Öncelikli AI yanıt</li>
-          <li>Sınırsız topluluk takibi</li>
-          <li>Kişisel öğrenme analitiği</li>
-          <li>Etkinlik sonrası AI özet</li>
-          <li>Evrak rehberi tam erişim</li>
-        </ul>
-        <a href="#waitlist" class="btn-price btn-price-filled" role="button">Beta'da Ücretsiz Dene</a>
-      </article>
-      <article class="price-card" role="listitem">
-        <div class="price-name">Kurumsal</div>
-        <div class="price-val">İletişim</div>
-        <p class="price-desc">Üniversiteler, öğrenci işleri ve kulüp yöneticileri için.</p>
-        <ul class="price-list" aria-label="Kurumsal plan özellikleri">
-          <li>Tüm özellikler</li>
-          <li>Yönetici dashboard</li>
-          <li>Öğrenci engagement analitiği</li>
-          <li>Yönetmelik özel entegrasyon</li>
-          <li>Öncelikli destek</li>
-        </ul>
-        <a href="mailto:hello@metubot.co" class="btn-price btn-price-outline" role="button">Bize Ulaş</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ── FAQ ── -->
-<section class="sec" id="faq">
-  <div class="sec-inner">
-    <div class="center fade-up">
-      <span class="sec-tag">SSS</span>
-      <h2 class="sec-title">Sık Sorulan Sorular</h2>
-      <p class="sec-sub">Aklına takılan bir soru varsa aşağıya bak, hâlâ yanıt bulamazsan bize yaz.</p>
-    </div>
-    <div class="faq-list fade-up" role="list">
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="faq1">
-          METUbot sadece ODTÜ'ye mi özel?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq1" role="region">
-          <p>Evet, şu an için METUbot yalnızca ODTÜ öğrencilerine hizmet veriyor. Giriş için ODTÜClass şifresi kullanılır — doğrudan ODTÜ'nün kendi güvenli giriş ekranına yönlendirilirsin. İlerleyen süreçte diğer üniversitelere de uygulanması planlanıyor.</p>
-        </div>
-      </div>
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="faq2">
-          Verilerim güvende mi? KVKK uyumlu mu?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq2" role="region">
-          <p>Evet. Tüm veriler Türkiye'deki sunucularda KVKK kapsamında saklanır. Kimlik ve akademik bilgilerin asla üçüncü taraflarla paylaşılmaz. Anonim kullanım analitiği sistemi iyileştirmek için kullanılır.</p>
-        </div>
-      </div>
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="faq3">
-          ODTÜClass şifremi girmem gerekiyor mu?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq3" role="region">
-          <p>Evet, giriş için ODTÜ'nün kendi kimlik doğrulama sistemi kullanılır. Şifreni doğrudan ODTÜ'nün resmi giriş sayfasına giriyorsun — METUbot bu bilgiye hiçbir şekilde erişemiyor. Bu sistem, güvenliği en üst düzeyde tutmak için tasarlandı.</p>
-        </div>
-      </div>
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="faq4">
-          Uygulama ne zaman çıkacak?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq4" role="region">
-          <p>Beta sürümünü 2026 Mayıs döneminde yayınlamayı planlıyoruz. Erken erişim listesine kayıt olanlara ilk sürümde öncelikli erişim verilecek ve tüm özellikler ücretsiz olacak.</p>
-        </div>
-      </div>
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="faq5">
-          Yönetmelik bilgileri güncel mi?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq5" role="region">
-          <p>Evet. Sistem, ODTÜ'nün resmi yönetmelik dokümanlarını kaynak olarak kullanır ve güncellemeler sistem tarafından otomatik olarak takip edilir. Her yanıtta hangi belgenin hangi maddesinden alındığı da gösterilir.</p>
-        </div>
-      </div>
-      <div class="faq-item" role="listitem">
-        <button class="faq-q" aria-expanded="false" aria-controls="faq6">
-          Mobil uygulama mı, web sitesi mi?
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="faq-a" id="faq6" role="region">
-          <p>METUbot, iOS ve Android için native mobil uygulama olarak geliştiriliyor. Kampüs içi bildirimler ve harita özellikleri için mobil deneyim önerilir.</p>
-        </div>
-      </div>
-    </div>
-    <p class="faq-help fade-up">Başka soruların mı var? <a href="mailto:hello@metubot.co">Bize yaz</a></p>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <a href="#hero" class="footer-brand">🎓 METU<em>bot</em></a>
-        <p class="footer-desc">Üniversite öğrencileri için AI destekli akıllı kampüs asistanı. İlerleyen dönemde METUApp'e entegre bir özellik olarak da sunulması planlanıyor. METU Stars katılımcıları.</p>
-        <div class="social-links" aria-label="Sosyal medya">
-          <span class="social-btn" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
-          </span>
-          <span class="social-btn" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          </span>
-          <span class="social-btn" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </span>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h5>Ürün</h5>
-        <ul>
-          <li><a href="#features">Özellikler</a></li>
-          <li><a href="#how">Nasıl Çalışır</a></li>
-          <li><a href="#pricing">Fiyatlar</a></li>
-          <li><a href="#waitlist">Erken Erişim</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Destek</h5>
-        <ul>
-          <li><a href="#faq">SSS</a></li>
-          <li><a href="mailto:hello@metubot.co">İletişim</a></li>
-          <li><a href="#" id="privacyLink">Gizlilik Politikası</a></li>
-          <li><a href="#" id="termsLink">Kullanım Koşulları</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Hakkında</h5>
-        <ul>
-          <li><a href="#">Ekip</a></li>
-          <li><a href="#">METU Stars</a></li>
-          <li><a href="#">Araştırma</a></li>
-          <li><a href="#">Blog</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© <span id="year"></span> METUbot. Tüm hakları saklıdır.</p>
-      <p class="footer-email">İletişim: <a href="mailto:hello@metubot.co">hello@metubot.co</a></p>
-    </div>
-  </div>
-</footer>
-
-<!-- ── COOKIE BANNER ── -->
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Çerez bildirimi" aria-describedby="cookieText">
-  <p class="cookie-text" id="cookieText">Bu site deneyimini iyileştirmek için çerezler kullanır. <a href="#" id="cookiePolicy">Çerez Politikası</a></p>
-  <button class="btn-cookie" id="cookieAccept" aria-label="Çerezleri kabul et">Kabul Et</button>
-</div>
-
-<script>
-// Nav scroll
-const nav = document.getElementById('navbar');
-const ham = document.getElementById('hamburger');
-const mob = document.getElementById('mobileMenu');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
-
-// Hamburger
-ham.addEventListener('click', () => {
-  const open = mob.classList.toggle('open');
-  ham.setAttribute('aria-expanded', open);
-});
-
-// Close mobile menu on link click
-mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  mob.classList.remove('open');
-  ham.setAttribute('aria-expanded', false);
-}));
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-  });
-});
-
-// Fade-up observer
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-// FAQ accordion
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const open = item.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open);
-  });
-});
-
-// Waitlist form
-document.getElementById('waitlistForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const name = document.getElementById('nameInput').value.trim();
-  const email = document.getElementById('emailInput').value.trim();
-  const err = document.getElementById('formError');
-  const suc = document.getElementById('successMsg');
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!name || !emailRegex.test(email)) {
-    err.style.display = 'block';
-    err.textContent = !name ? 'Lütfen adını gir.' : 'Lütfen geçerli bir e-posta adresi gir.';
-    return;
-  }
-  err.style.display = 'none';
-  suc.style.display = 'block';
-  document.getElementById('submitBtn').disabled = true;
-  document.getElementById('submitBtn').textContent = '✓ Listeye Eklendi';
-  // GA4 event
-  if (typeof gtag !== 'undefined') gtag('event', 'waitlist_signup', { name, email });
-});
-
-// Cookie
-const cookieBanner = document.getElementById('cookieBanner');
-if (localStorage.getItem('cookieAccepted')) cookieBanner.classList.add('hidden');
-document.getElementById('cookieAccept').addEventListener('click', () => {
-  localStorage.setItem('cookieAccepted', '1');
-  cookieBanner.classList.add('hidden');
-});
-
-// Year
-document.getElementById('year').textContent = new Date().getFullYear();
-
-// Scroll depth tracking
-let depths = new Set();
-window.addEventListener('scroll', () => {
-  const pct = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-  [25, 50, 75, 90].forEach(d => {
-    if (pct >= d && !depths.has(d)) {
-      depths.add(d);
-      if (typeof gtag !== 'undefined') gtag('event', 'scroll_depth', { depth: d });
-    }
-  });
-});
-
-// CTA click tracking
-document.querySelectorAll('.btn-primary, .btn-nav, .btn-dark').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (typeof gtag !== 'undefined') gtag('event', 'cta_click', { text: btn.textContent.trim() });
-  });
-});
-</script>
-
-<!-- Google Analytics 4 (replace G-XXXXXXXXXX with your ID) -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
--->
 </body>
 </html>
