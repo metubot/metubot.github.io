@@ -220,12 +220,13 @@ footer{background:var(--black);padding:60px 24px 28px}
 </style>
 </head>
 <body>
-
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="#hero" class="nav-logo">
-      <img src="https://upload.wikimedia.org/wikipedia/tr/2/22/Metu_logo.png" alt="ODTÜ" style="height: 32px; width: auto; margin-right: 2px;">
-      METU<span class="red">BOT</span>
+    <a href="#hero" class="nav-logo" style="display: flex; align-items: center; gap: 10px;">
+      <img src="https://upload.wikimedia.org/wikipedia/tr/2/22/Metu_logo.png" 
+           alt="ODTÜ" 
+           style="height: 32px; width: auto; flex-shrink: 0;">
+      <span style="display: inline-block;">METU<span class="red">BOT</span></span>
     </a>
 
     <ul class="nav-links">
@@ -247,6 +248,7 @@ footer{background:var(--black);padding:60px 24px 28px}
     <button class="hamburger" id="ham" aria-label="Menü" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
+
 
 <div class="mob-menu" id="mobMenu">
   <a href="#problem">Sorun</a>
