@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .odtu-red { background-color: #D32F2F; }
+        .odtu-text-red { color: #D32F2F; }
         
         /* İstediğin METU BOT Yazı Stili */
         .nav-logo-style {
@@ -15,8 +16,8 @@
             align-items: center;
             font-family: 'Barlow', sans-serif;
             font-weight: 700;
-            font-size: 1.8rem; /* Header boyutuna göre ayarlandı */
-            letter-spacing: .08em; /* Ekran görüntüsündeki o genişlik */
+            font-size: 1.8rem;
+            letter-spacing: .08em;
             text-transform: uppercase;
         }
 
@@ -25,10 +26,8 @@
         }
 
         .nav-logo-style .red-part {
-            color: #D93025; /* BOT kısmı ana sayfa kırmızısı */
+            color: #ffffff; /* Kırmızı header üzerinde beyaz daha iyi durur, ama istersen #D93025 yapabilirsin */
         }
-
-        .odtu-text-red { color: #D32F2F; }
     </style>
 </head>
 <body class="bg-gray-50 h-screen flex flex-col">
@@ -42,7 +41,7 @@
             <div class="flex flex-col">
                 <div class="nav-logo-style">
                     <span class="black-part">METU</span>
-                    <span class="red-part">BOT</span>
+                    <span class="red-part" style="margin-left: 8px;">BOT</span>
                 </div>
                 <span class="text-[10px] italic opacity-50 uppercase tracking-[0.5em] mt-1 ml-1">AI Campus Assistant</span>
             </div>
