@@ -19,19 +19,35 @@
             font-size: 1.8rem;
             letter-spacing: .08em;
             text-transform: uppercase;
-            color: #ffffff; /* Her iki kelime için varsayılan renk */
+            color: #ffffff;
         }
 
-        /* Alt yazı (AI Campus Assistant) için ortalama ayarı */
         .assistant-tag {
-            text-align: center; /* Yazıyı kendi içinde ortalar */
-            width: 100%; /* Kapsayıcı genişliğinde ortalanmasını sağlar */
+            text-align: center;
+            width: 100%;
             font-size: 10px;
             font-style: italic;
             opacity: 0.6;
             text-transform: uppercase;
             letter-spacing: 0.4em;
             margin-top: 2px;
+        }
+
+        /* Yazıyor animasyonu */
+        .typing-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #D32F2F;
+            margin: 0 2px;
+            animation: typing 1.2s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-5px); opacity: 1; }
         }
     </style>
 </head>
@@ -86,15 +102,53 @@
         const chatWindow = document.getElementById('chat-window');
         const userInput = document.getElementById('user-input');
 
-        function sendMessage() {
+        const SYSTEM_PROMPT = `Sen ODTÜ (Orta Doğu Teknik Üniversitesi) öğrencilerine yardım eden "METUbot" adlı resmi AI asistanısın.
+Uzmanlık alanların: kampüs yaşamı, idari işler, öğrenci yönetmelikleri, ders kaydı, not sistemi, yurt, burs, çift anadal, kayıt dondurma, mezuniyet ve akademik prosedürler.
+Kuralların:
+- Kullanıcının dilinde yanıt ver (Türkçe veya İngilizce)
+- Adımları net ve sıralı açıkla
+- Mümkünse ilgili yönetmelik madde numarasını belirt
+- Bilmediğin konularda odtu.edu.tr veya oidb.metu.edu.tr adresine yönlendir
+- Samimi ama profesyonel bir ton kullan`;
+
+        let history = [];
+        let isLoading = false;
+
+        async function sendMessage() {
             const text = userInput.value.trim();
-            if (text === "") return;
+            if (text === "" || isLoading) return;
+
             addMessage(text, 'user');
             userInput.value = "";
-            
-            setTimeout(() => {
-                addMessage("Bunu hemen senin için araştırıyorum...", 'ai');
-            }, 1000);
+            history.push({ role: "user", content: text });
+
+            isLoading = true;
+            const typingEl = showTyping();
+
+            try {
+                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: "claude-sonnet-4-20250514",
+                        max_tokens: 1000,
+                        system: SYSTEM_PROMPT,
+                        messages: history
+                    })
+                });
+
+                const data = await response.json();
+                const reply = data.content?.[0]?.text || "Bir hata oluştu, lütfen tekrar deneyin.";
+                history.push({ role: "assistant", content: reply });
+                typingEl.remove();
+                addMessage(reply, 'ai');
+            } catch (err) {
+                typingEl.remove();
+                addMessage("Bağlantı hatası oluştu. Lütfen tekrar deneyin.", 'ai');
+            } finally {
+                isLoading = false;
+                userInput.focus();
+            }
         }
 
         function addMessage(text, sender) {
@@ -110,6 +164,20 @@
             wrapper.appendChild(msgDiv);
             chatWindow.appendChild(wrapper);
             chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function showTyping() {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex justify-start';
+            wrapper.innerHTML = `
+                <div class="bg-white border-l-4 border-[#D32F2F] p-4 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>`;
+            chatWindow.appendChild(wrapper);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            return wrapper;
         }
 
         userInput.addEventListener("keypress", (e) => { 
