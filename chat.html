@@ -4,33 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>METUbot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@700&family=Exo+2:ital,wght@1,300;1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+
         .odtu-red { background-color: #D32F2F; }
         .odtu-text-red { color: #D32F2F; }
-        
-        /* METU BOT Yazı Stili - İkisi de tam beyaz */
+
         .nav-logo-style {
             display: flex;
             align-items: center;
-            font-family: 'Barlow', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
-            font-size: 1.8rem;
-            letter-spacing: .08em;
+            font-size: 1.5rem;
+            letter-spacing: .06em;
             text-transform: uppercase;
-            color: #ffffff;
+            color: #1a1a1a;
         }
 
         .assistant-tag {
             text-align: center;
             width: 100%;
-            font-size: 10px;
-            font-style: italic;
-            opacity: 0.6;
+            font-size: 9px;
+            font-style: normal;
+            opacity: 0.5;
             text-transform: uppercase;
-            letter-spacing: 0.4em;
+            letter-spacing: 0.35em;
             margin-top: 2px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 400;
         }
 
         /* Yazıyor animasyonu */
@@ -62,13 +65,19 @@
                  style="width:38px;height:38px;object-fit:contain;">
             <!-- Dikey ayraç -->
             <div style="width:1px;height:28px;background:#e0e0e0;"></div>
-            <!-- METUBOT yazısı: METU ince, BOT kalın -->
-            <span style="font-family:'Barlow',sans-serif;font-size:1.35rem;
-                         letter-spacing:.06em;color:#1a1a1a;text-transform:uppercase;">
-                METU<strong style="color:#D32F2F;">BOT</strong>
-            </span>
+            <!-- METUBOT yazısı -->
+            <div style="display:flex;flex-direction:column;line-height:1.1;">
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;
+                             font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;">
+                    METU<span style="color:#D32F2F;">BOT</span>
+                </span>
+                <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;
+                             letter-spacing:.3em;text-transform:uppercase;color:#aaa;font-weight:400;">
+                    AI Campus Assistant
+                </span>
+            </div>
         </div>
-        <span style="font-size:11px;color:#aaa;letter-spacing:.04em;">AI Campus Assistant</span>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:#ccc;letter-spacing:.03em;font-weight:300;">metubot.github.io</span>
     </header>
 
     <!-- CHAT ALANI -->
@@ -78,10 +87,10 @@
             <div style="background:#ffffff;border-left:4px solid #D32F2F;color:#333;
                         border-radius:0 16px 16px 16px;padding:16px 20px;max-width:85%;
                         box-shadow:0 1px 6px rgba(0,0,0,.07);">
-                <p style="color:#D32F2F;font-weight:700;font-style:italic;font-size:1rem;margin-bottom:6px;">
+                <p style="color:#D32F2F;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:6px;letter-spacing:.02em;">
                     Merhaba!
                 </p>
-                <p style="font-size:.875rem;line-height:1.6;color:#444;">
+                <p style="font-size:.875rem;line-height:1.7;color:#444;font-weight:400;">
                     <span style="font-weight:600;">METUbot</span>'a hoş geldin.
                     Sana kampüs hayatı ve okul yönetmelikleri hakkında nasıl yardımcı olabilirim?
                 </p>
