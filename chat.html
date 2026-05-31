@@ -4,36 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>METUbot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@700&family=Exo+2:ital,wght@1,300;1,500;1,600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { font-family: 'Plus Jakarta Sans', sans-serif; }
-
         .odtu-red { background-color: #D32F2F; }
         .odtu-text-red { color: #D32F2F; }
-
+        
+        /* METU BOT Yazı Stili - İkisi de tam beyaz */
         .nav-logo-style {
             display: flex;
             align-items: center;
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Barlow', sans-serif;
             font-weight: 700;
-            font-size: 1.5rem;
-            letter-spacing: .06em;
+            font-size: 1.8rem;
+            letter-spacing: .08em;
             text-transform: uppercase;
-            color: #1a1a1a;
+            color: #ffffff;
         }
 
         .assistant-tag {
             text-align: center;
             width: 100%;
-            font-size: 9px;
-            font-style: normal;
-            opacity: 0.5;
+            font-size: 10px;
+            font-style: italic;
+            opacity: 0.6;
             text-transform: uppercase;
-            letter-spacing: 0.35em;
+            letter-spacing: 0.4em;
             margin-top: 2px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 400;
         }
 
         /* Yazıyor animasyonu */
@@ -54,19 +51,24 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 h-screen flex flex-col">
+<body style="background:#F5F5F5;" class="h-screen flex flex-col">
 
-    <!-- HEADER — index.html navbar ile birebir aynı -->
-    <header style="background:rgba(250,249,247,.97);border-bottom:1px solid #E0DDD8;
-                   padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;">
-        <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;
-                    font-family:'Barlow',sans-serif;font-weight:700;font-size:1.15rem;
-                    letter-spacing:.08em;text-transform:uppercase;color:#111;">
-            <img src="9.4.png" alt="ODTÜ" style="height:32px;width:auto;flex-shrink:0;">
-            METU<span style="color:#D93025;">BOT</span>
-        </a>
-        <span style="font-family:'Barlow',sans-serif;font-size:11px;
-                     letter-spacing:.06em;color:#aaa;font-weight:400;">AI Campus Assistant</span>
+    <!-- HEADER — beyaz, logolu -->
+    <header style="background:#ffffff;border-bottom:1px solid #e8e8e8;padding:0 28px;"
+            class="flex items-center justify-between h-16 shadow-sm">
+        <div class="flex items-center gap-3">
+            <!-- ODTÜ amblem -->
+            <img src="odtu-amblem.png" alt="METU Logo"
+                 style="width:38px;height:38px;object-fit:contain;">
+            <!-- Dikey ayraç -->
+            <div style="width:1px;height:28px;background:#e0e0e0;"></div>
+            <!-- METUBOT yazısı: METU ince, BOT kalın -->
+            <span style="font-family:'Barlow',sans-serif;font-size:1.35rem;
+                         letter-spacing:.06em;color:#1a1a1a;text-transform:uppercase;">
+                METU<strong style="color:#D32F2F;">BOT</strong>
+            </span>
+        </div>
+        <span style="font-size:11px;color:#aaa;letter-spacing:.04em;">AI Campus Assistant</span>
     </header>
 
     <!-- CHAT ALANI -->
@@ -76,10 +78,10 @@
             <div style="background:#ffffff;border-left:4px solid #D32F2F;color:#333;
                         border-radius:0 16px 16px 16px;padding:16px 20px;max-width:85%;
                         box-shadow:0 1px 6px rgba(0,0,0,.07);">
-                <p style="color:#D32F2F;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:6px;letter-spacing:.02em;">
+                <p style="color:#D32F2F;font-weight:700;font-style:italic;font-size:1rem;margin-bottom:6px;">
                     Merhaba!
                 </p>
-                <p style="font-size:.875rem;line-height:1.7;color:#444;font-weight:400;">
+                <p style="font-size:.875rem;line-height:1.6;color:#444;">
                     <span style="font-weight:600;">METUbot</span>'a hoş geldin.
                     Sana kampüs hayatı ve okul yönetmelikleri hakkında nasıl yardımcı olabilirim?
                 </p>
