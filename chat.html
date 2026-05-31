@@ -51,48 +51,67 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 h-screen flex flex-col">
+<body style="background:#1A1A2E;" class="h-screen flex flex-col">
 
-    <header class="odtu-red text-white p-2 shadow-lg flex items-center justify-between min-h-[130px]">
-        <div class="flex items-center gap-2">
-            <div class="w-32 h-32 flex items-center justify-center">
-                <img src="odtu-amblem.png" alt="METU Logo" class="w-full h-full object-contain transform scale-110">
+    <!-- Sol kırmızı şerit (pitch deck ile aynı) -->
+    <div style="position:fixed;left:0;top:0;width:6px;height:100vh;background:#D32F2F;z-index:50;"></div>
+
+    <!-- HEADER -->
+    <header style="background:#1A1A2E;border-bottom:1px solid #2a2a45;padding-left:22px;"
+            class="flex items-center justify-between pl-6 pr-6 py-3 shadow-lg">
+        <div class="flex items-center gap-3">
+            <div class="w-14 h-14 flex items-center justify-center flex-shrink-0">
+                <img src="odtu-amblem.png" alt="METU Logo" class="w-full h-full object-contain">
             </div>
-            
-            <div class="flex flex-col items-center">
-                <div class="nav-logo-style">
-                    <span>METU</span>
-                    <span style="margin-left: 8px;">BOT</span>
-                </div>
-                <div class="assistant-tag">
+            <div class="flex flex-col" style="line-height:1.1;">
+                <span style="font-family:'Barlow',sans-serif;font-weight:700;font-size:1.55rem;
+                             letter-spacing:.08em;text-transform:uppercase;color:#ffffff;">
+                    METU<span style="margin-left:6px;">BOT</span>
+                </span>
+                <span style="font-size:9px;letter-spacing:.35em;text-transform:uppercase;
+                             color:#FFCDD2;opacity:.75;font-style:italic;">
                     AI Campus Assistant
-                </div>
+                </span>
             </div>
         </div>
-        
-        <div class="hidden md:block mr-6 text-sm opacity-70 italic font-light bg-white/5 px-5 py-2 rounded-full border border-white/10">
-            METU Project
+        <div style="font-size:11px;color:#555577;letter-spacing:.05em;font-style:italic;">
+            metubot.github.io
         </div>
     </header>
 
-    <main id="chat-window" class="flex-1 overflow-y-auto p-4 space-y-4 chat-container bg-white/50">
+    <!-- CHAT ALANI -->
+    <main id="chat-window" class="flex-1 overflow-y-auto p-5 space-y-4"
+          style="background:#1A1A2E;">
         <div class="flex justify-start">
-            <div class="bg-white border-l-4 border-[#D32F2F] text-gray-800 p-4 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">
-                <p class="font-bold odtu-text-red italic mb-1 text-lg">Merhaba!</p>
-                <p class="text-sm leading-relaxed">
-                    <span class="font-semibold">METUbot</span>'a hoş geldin. 
+            <div style="background:#22223a;border-left:4px solid #D32F2F;color:#e0e0ee;
+                        border-radius:0 16px 16px 16px;padding:16px 20px;max-width:85%;
+                        box-shadow:0 2px 12px rgba(0,0,0,.3);">
+                <p style="color:#FFCDD2;font-weight:700;font-style:italic;font-size:1.05rem;margin-bottom:6px;">
+                    Merhaba!
+                </p>
+                <p style="font-size:.875rem;line-height:1.6;">
+                    <span style="font-weight:600;">METUbot</span>'a hoş geldin.
                     Sana kampüs hayatı ve okul yönetmelikleri hakkında nasıl yardımcı olabilirim?
                 </p>
             </div>
         </div>
     </main>
 
-    <footer class="p-4 bg-white border-t border-gray-100">
+    <!-- FOOTER / INPUT -->
+    <footer style="background:#16162a;border-top:1px solid #2a2a45;padding:16px 20px;">
         <div class="max-w-4xl mx-auto flex gap-3">
-            <input type="text" id="user-input" placeholder="Bir şeyler sorun..." 
-                   class="flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[#D32F2F] transition-all text-sm italic">
-            <button onclick="sendMessage()" 
-                    class="odtu-red text-white px-8 py-4 rounded-2xl font-bold hover:bg-red-700 active:scale-95 transition-all shadow-lg shadow-red-900/20">
+            <input type="text" id="user-input" placeholder="Bir şeyler sorun..."
+                   style="flex:1;background:#22223a;border:1px solid #3a3a5a;border-radius:16px;
+                          padding:14px 20px;color:#e0e0ee;font-size:.875rem;font-style:italic;
+                          outline:none;transition:border-color .2s;"
+                   onfocus="this.style.borderColor='#D32F2F'"
+                   onblur="this.style.borderColor='#3a3a5a'">
+            <button onclick="sendMessage()"
+                    style="background:#D32F2F;color:#fff;padding:14px 28px;border-radius:16px;
+                           font-weight:700;border:none;cursor:pointer;transition:background .2s;
+                           box-shadow:0 4px 15px rgba(211,47,47,.3);"
+                    onmouseover="this.style.background='#B71C1C'"
+                    onmouseout="this.style.background='#D32F2F'">
                 Gönder
             </button>
         </div>
@@ -167,13 +186,28 @@ Kuralların:
 
         function addMessage(text, sender) {
             const wrapper = document.createElement('div');
-            wrapper.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
-            
+            wrapper.style.display = 'flex';
+            wrapper.style.justifyContent = sender === 'user' ? 'flex-end' : 'flex-start';
+
             const msgDiv = document.createElement('div');
-            msgDiv.className = sender === 'user' 
-                ? 'bg-gray-800 text-white p-4 rounded-2xl rounded-tr-none max-w-[80%] shadow-md text-sm italic' 
-                : 'bg-white border-l-4 border-[#D32F2F] text-gray-800 p-4 rounded-2xl rounded-tl-none max-w-[80%] shadow-sm text-sm';
-            
+            msgDiv.style.maxWidth = '80%';
+            msgDiv.style.padding = '14px 18px';
+            msgDiv.style.fontSize = '0.875rem';
+            msgDiv.style.lineHeight = '1.6';
+            msgDiv.style.boxShadow = '0 2px 10px rgba(0,0,0,0.3)';
+
+            if (sender === 'user') {
+                msgDiv.style.background = '#D32F2F';
+                msgDiv.style.color = '#fff';
+                msgDiv.style.borderRadius = '16px 16px 0 16px';
+                msgDiv.style.fontStyle = 'italic';
+            } else {
+                msgDiv.style.background = '#22223a';
+                msgDiv.style.color = '#e0e0ee';
+                msgDiv.style.borderLeft = '4px solid #D32F2F';
+                msgDiv.style.borderRadius = '0 16px 16px 16px';
+            }
+
             msgDiv.innerText = text;
             wrapper.appendChild(msgDiv);
             chatWindow.appendChild(wrapper);
@@ -184,7 +218,9 @@ Kuralların:
             const wrapper = document.createElement('div');
             wrapper.className = 'flex justify-start';
             wrapper.innerHTML = `
-                <div class="bg-white border-l-4 border-[#D32F2F] p-4 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1">
+                <div style="background:#22223a;border-left:4px solid #D32F2F;padding:16px 20px;
+                            border-radius:0 16px 16px 16px;box-shadow:0 2px 10px rgba(0,0,0,.3);
+                            display:flex;align-items:center;gap:6px;">
                     <span class="typing-dot"></span>
                     <span class="typing-dot"></span>
                     <span class="typing-dot"></span>
