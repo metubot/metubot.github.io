@@ -102,6 +102,10 @@
         const chatWindow = document.getElementById('chat-window');
         const userInput = document.getElementById('user-input');
 
+        // Google AI Studio'dan alınan API key: https://aistudio.google.com/app/apikey
+        const API_KEY = "AIzaSyDVA3DZmBjqHxddMX-miRDxnUDUA_M8VZM";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
         const SYSTEM_PROMPT = `Sen ODTÜ (Orta Doğu Teknik Üniversitesi) öğrencilerine yardım eden "METUbot" adlı resmi AI asistanısın.
 Uzmanlık alanların: kampüs yaşamı, idari işler, öğrenci yönetmelikleri, ders kaydı, not sistemi, yurt, burs, çift anadal, kayıt dondurma, mezuniyet ve akademik prosedürler.
 Kuralların:
@@ -111,6 +115,7 @@ Kuralların:
 - Bilmediğin konularda odtu.edu.tr veya oidb.metu.edu.tr adresine yönlendir
 - Samimi ama profesyonel bir ton kullan`;
 
+        // Gemini formatında konuşma geçmişi: {role: "user"/"model", parts: [{text: "..."}]}
         let history = [];
         let isLoading = false;
 
@@ -120,31 +125,40 @@ Kuralların:
 
             addMessage(text, 'user');
             userInput.value = "";
-            history.push({ role: "user", content: text });
+            history.push({ role: "user", parts: [{ text: text }] });
 
             isLoading = true;
             const typingEl = showTyping();
 
             try {
-                const response = await fetch("https://api.anthropic.com/v1/messages", {
+                const response = await fetch(API_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        model: "claude-sonnet-4-20250514",
-                        max_tokens: 1000,
-                        system: SYSTEM_PROMPT,
-                        messages: history
+                        system_instruction: {
+                            parts: [{ text: SYSTEM_PROMPT }]
+                        },
+                        contents: history,
+                        generationConfig: {
+                            maxOutputTokens: 1000,
+                            temperature: 0.7
+                        }
                     })
                 });
 
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error?.message || "API hatası");
+                }
+
                 const data = await response.json();
-                const reply = data.content?.[0]?.text || "Bir hata oluştu, lütfen tekrar deneyin.";
-                history.push({ role: "assistant", content: reply });
+                const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Bir hata oluştu, lütfen tekrar deneyin.";
+                history.push({ role: "model", parts: [{ text: reply }] });
                 typingEl.remove();
                 addMessage(reply, 'ai');
             } catch (err) {
                 typingEl.remove();
-                addMessage("Bağlantı hatası oluştu. Lütfen tekrar deneyin.", 'ai');
+                addMessage("Bağlantı hatası: " + err.message, 'ai');
             } finally {
                 isLoading = false;
                 userInput.focus();
