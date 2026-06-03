@@ -3,7 +3,7 @@ const KB = [
   // ====== DERS KAYDI ======
   {
     id: "dk1",
-    tags: ["ders kaydı", "kayıt", "add drop", "ders ekleme", "ders bırakma", "kredi"],
+    tags: ["ders kaydı", "kayıt", "add drop", "ders ekleme", "ders bırakma", "kredi", "course registration", "register", "enroll", "enrollment", "drop course", "add course", "credits"],
     content: `Ders Kaydı (Add/Drop) Süreci:
 - Ders kaydı her dönem başında belirli tarihlerde OIS (Online Information System) üzerinden yapılır.
 - Add/Drop süresi genellikle ilk iki hafta içindedir.
@@ -15,7 +15,7 @@ const KB = [
   },
   {
     id: "dk2",
-    tags: ["ois", "online kayıt", "sistem", "student.metu.edu.tr"],
+    tags: ["ois", "online kayıt", "sistem", "student.metu.edu.tr", "online system", "student portal", "login", "password", "mobile app"],
     content: `OIS (Online Information System):
 - Adres: student.metu.edu.tr
 - Ders kaydı, not görüntüleme, transkript alma, dilekçe gönderme işlemleri yapılır.
@@ -27,7 +27,7 @@ const KB = [
   // ====== NOT SİSTEMİ ======
   {
     id: "ns1",
-    tags: ["not", "harf notu", "gpa", "genel not ortalaması", "transkript", "FF", "FD", "DD", "DC", "CC", "CB", "BB", "BA", "AA"],
+    tags: ["not", "harf notu", "gpa", "genel not ortalaması", "transkript", "FF", "FD", "DD", "DC", "CC", "CB", "BB", "BA", "AA", "grade", "grades", "letter grade", "transcript", "cgpa", "cumulative", "grading system", "pass", "fail"],
     content: `ODTÜ Harf Notu ve GPA Sistemi:
 Harf notu → 4'lük sistem:
 AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD = 0.50, FF = 0.00
@@ -41,7 +41,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   },
   {
     id: "ns2",
-    tags: ["sınav", "bütünleme", "final", "vizeler", "mazeret sınavı"],
+    tags: ["sınav", "bütünleme", "final", "vizeler", "mazeret sınavı", "exam", "exams", "midterm", "final exam", "make-up exam", "makeup", "resit", "retake"],
     content: `ODTÜ Sınav Sistemi:
 - Vizeler: Dönem ortasında, tarihler ders programında belirtilir
 - Finaller: Dönem sonunda, akademik takvime göre
@@ -53,7 +53,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   // ====== DEVAMSIZLIK ======
   {
     id: "dev1",
-    tags: ["devamsızlık", "yoklama", "devam zorunluluğu", "W", "devam şartı"],
+    tags: ["devamsızlık", "yoklama", "devam zorunluluğu", "W", "devam şartı", "attendance", "absence", "attendance requirement", "withdraw", "missing class"],
     content: `Devam Zorunluluğu:
 - ODTÜ'de dersler için minimum %70 devam zorunludur.
 - Devamsızlık sınırını aşan öğrenciler o dersin final sınavına giremez ve dersten W notu alır.
@@ -66,7 +66,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   // ====== ÇİFT ANADAL / YANDAL ======
   {
     id: "ca1",
-    tags: ["çift anadal", "double major", "DAP", "ek program", "ikinci bölüm"],
+    tags: ["çift anadal", "double major", "DAP", "ek program", "ikinci bölüm", "second major", "dual degree", "double degree", "apply double major"],
     content: `Çift Anadal Programı (DAP):
 - Başvuru koşulları: İlk iki dönem tamamlanmış olmalı, GNO ≥ 3.00/4.00 (bölüme göre değişebilir)
 - Başvuru zamanı: 2. veya 3. yarıyıl sonu (bölüm ilanlarını takip edin)
@@ -78,7 +78,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   },
   {
     id: "ya1",
-    tags: ["yandal", "minor", "YAP", "sertifika programı"],
+    tags: ["yandal", "minor", "YAP", "sertifika programı", "minor program", "secondary program", "certificate"],
     content: `Yandal Programı (YAP / Minor):
 - Başvuru koşulları: GNO ≥ 2.50/4.00, 3. veya 4. yarıyıl öğrencisi olmak
 - Yandal en az 18 kredilik ek ders gerektirir
@@ -90,7 +90,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   // ====== KAYIT DONDURMA ======
   {
     id: "kd1",
-    tags: ["kayıt dondurma", "izinli sayılma", "dönem erteleme", "askerlik", "hastalık izni"],
+    tags: ["kayıt dondurma", "izinli sayılma", "dönem erteleme", "askerlik", "hastalık izni", "freeze enrollment", "leave of absence", "suspend studies", "defer semester", "military service", "medical leave"],
     content: `Kayıt Dondurma (İzinli Sayılma):
 - Bir dönem veya bir yıl süreyle kayıt dondurulabilir
 - Nedenler: Sağlık, maddi imkânsızlık, askerlik, yurt dışı eğitim, aile durumu
@@ -105,7 +105,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   // ====== BURS ======
   {
     id: "burs1",
-    tags: ["burs", "burs başvurusu", "KYK", "devlet bursu", "vakıf bursu", "yüksek onur", "onur"],
+    tags: ["burs", "burs başvurusu", "KYK", "devlet bursu", "vakıf bursu", "yüksek onur", "onur", "scholarship", "financial aid", "grant", "honor roll", "dean's list", "stipend"],
     content: `Burs Seçenekleri:
 1. Devlet Bursu (KYK): burs.gov.tr üzerinden başvuru, her yıl yenilenir
 2. ODTÜ Burs İmkânları: odtu.edu.tr/bursvebagis
@@ -120,7 +120,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   // ====== YURT ======
   {
     id: "yurt1",
-    tags: ["yurt", "yurt başvurusu", "KYK yurt", "kampüs yurdu", "konaklama"],
+    tags: ["yurt", "yurt başvurusu", "KYK yurt", "kampüs yurdu", "konaklama", "dormitory", "dorm", "housing", "accommodation", "student housing", "residence"],
     content: `Yurt İmkânları:
 1. KYK Yurtları: yurtkur.gov.tr üzerinden başvuru (her yıl temmuz-ağustos)
 2. ODTÜ Kampüs Yurtları: Kampüs içinde yurtlar mevcut
@@ -134,7 +134,7 @@ AA = 4.00, BA = 3.50, BB = 3.00, CB = 2.50, CC = 2.00, DC = 1.50, DD = 1.00, FD 
   // ====== MEZUNİYET ======
   {
     id: "mez1",
-    tags: ["mezuniyet", "mezun olmak", "diploma", "staj", "graduation", "bitirme projesi"],
+    tags: ["mezuniyet", "mezun olmak", "diploma", "graduation", "bitirme projesi", "graduate", "graduating", "graduation requirements", "thesis", "capstone", "degree requirements"],
     content: `Mezuniyet Koşulları:
 - GNO ≥ 2.00/4.00 olmalı
 - Müfredattaki tüm zorunlu dersler tamamlanmalı
@@ -151,7 +151,7 @@ Mezuniyet Başvurusu:
   // ====== STAJ ======
   {
     id: "staj1",
-    tags: ["staj", "internship", "zorunlu staj", "staj belgesi", "staj raporu"],
+    tags: ["staj", "internship", "zorunlu staj", "staj belgesi", "staj raporu", "mandatory internship", "summer internship", "internship report", "work experience", "practical training"],
     content: `Staj Prosedürü:
 - Staj zorunluluğu bölüme göre değişir (Mühendislik: genellikle 2 staj zorunlu)
 - Staj öncesi: OIS'ten staj başvurusu, bölüm onayı alınır
@@ -166,7 +166,7 @@ Mezuniyet Başvurusu:
   // ====== AKADEMİK TAKVİM ======
   {
     id: "at1",
-    tags: ["akademik takvim", "tatil", "yarıyıl", "dönem", "yaz okulu", "kayıt tarihleri"],
+    tags: ["akademik takvim", "tatil", "yarıyıl", "dönem", "yaz okulu", "kayıt tarihleri", "academic calendar", "semester dates", "summer school", "holidays", "schedule", "term dates"],
     content: `Akademik Takvim:
 - Güz Yarıyılı: Eylül-Ocak
 - Bahar Yarıyılı: Şubat-Haziran
@@ -179,7 +179,7 @@ Mezuniyet Başvurusu:
   // ====== İLETİŞİM / BİRİMLER ======
   {
     id: "ilet1",
-    tags: ["iletişim", "birim", "öğrenci işleri", "danışman", "dekanlık", "sekretarya"],
+    tags: ["iletişim", "birim", "öğrenci işleri", "danışman", "dekanlık", "sekretarya", "contact", "office", "student affairs", "advisor", "department", "faculty", "registrar"],
     content: `Önemli ODTÜ Birimleri ve İletişim:
 - Öğrenci İşleri Daire Başkanlığı: oidb.metu.edu.tr
 - Sağlık Kültür ve Spor Dairesi: sks.metu.edu.tr
@@ -194,7 +194,7 @@ Mezuniyet Başvurusu:
   // ====== ERASMUS / ULUSLARARASI ======
   {
     id: "er1",
-    tags: ["erasmus", "exchange", "yurt dışı", "değişim programı", "uluslararası", "IRO"],
+    tags: ["erasmus", "exchange", "yurt dışı", "değişim programı", "uluslararası", "IRO", "exchange program", "study abroad", "international", "mobility", "erasmus application", "learning agreement"],
     content: `Erasmus+ ve Değişim Programları:
 - Erasmus+: Avrupa üniversitelerine 1-2 dönem değişim imkânı
 - Başvuru dönemi: Genellikle Kasım-Ocak (bir sonraki akademik yıl için)
@@ -209,7 +209,7 @@ Mezuniyet Başvurusu:
   // ====== SAĞLIK ======
   {
     id: "sag1",
-    tags: ["sağlık merkezi", "hastaane", "sağlık", "doktor", "reçete", "ilaç"],
+    tags: ["sağlık merkezi", "hastaane", "sağlık", "doktor", "reçete", "ilaç", "health center", "health", "doctor", "medical", "prescription", "sick", "hospital", "counseling", "psychological support"],
     content: `ODTÜ Sağlık Hizmetleri:
 - ODTÜ Sağlık Merkezi: Kampüs içinde, ücretsiz muayene
 - Çalışma saatleri: Hafta içi 08:00-17:00
@@ -223,7 +223,7 @@ Mezuniyet Başvurusu:
   // ====== ULAŞIM ======
   {
     id: "ulas1",
-    tags: ["ulaşım", "servis", "otobüs", "metro", "kampüs içi ulaşım", "araç", "bisiklet"],
+    tags: ["ulaşım", "servis", "otobüs", "metro", "kampüs içi ulaşım", "araç", "bisiklet", "transportation", "bus", "shuttle", "metro", "getting to campus", "bicycle", "parking"],
     content: `ODTÜ Ulaşım:
 - Ankara metrosu: M1 hattı ODTÜ durağı kampüse erişim sağlar
 - Öğrenci servisleri: Kampüs dışından düzenli servisler (sks.metu.edu.tr)
@@ -235,7 +235,7 @@ Mezuniyet Başvurusu:
   // ====== YEMEKHANE / KAFETERYA ======
   {
     id: "ym1",
-    tags: ["yemekhane", "cafeteria", "yemek", "kafeterya", "yemek kartı"],
+    tags: ["yemekhane", "cafeteria", "yemek", "kafeterya", "yemek kartı", "food", "dining", "meal card", "canteen", "lunch", "eat"],
     content: `Yemekhane ve Yemek İmkânları:
 - ODTÜ Yemekhaneleri: Kampüste birden fazla yemekhane var (Merkez, Mühendislik, vb.)
 - Yemek kartı: OIS üzerinden veya kasiyer noktalarından yüklenebilir
@@ -247,7 +247,7 @@ Mezuniyet Başvurusu:
   // ====== KÜTÜPHANE ======
   {
     id: "kut1",
-    tags: ["kütüphane", "kitap", "veritabanı", "makale", "araştırma", "IEEE", "JSTOR"],
+    tags: ["kütüphane", "kitap", "veritabanı", "makale", "araştırma", "IEEE", "JSTOR", "library", "book", "database", "article", "research", "borrow", "vpn", "journal", "paper"],
     content: `ODTÜ Kütüphanesi:
 - Web: lib.metu.edu.tr
 - Kampüs içinde ana kütüphane + şube kütüphaneler
@@ -261,7 +261,7 @@ Mezuniyet Başvurusu:
   // ====== DİLEKÇE / PROSEDÜR ======
   {
     id: "dil1",
-    tags: ["dilekçe", "form", "başvuru", "prosedür", "nasıl yapılır"],
+    tags: ["dilekçe", "form", "başvuru", "prosedür", "nasıl yapılır", "petition", "application form", "how to apply", "procedure", "official request", "submit"],
     content: `Dilekçe ve Başvuru Prosedürleri:
 - Tüm resmi dilekçeler OIS üzerinden online gönderilebilir
 - Ayrıca fiziksel dilekçe: Öğrenci İşleri Daire Başkanlığı'na teslim edilir
@@ -274,7 +274,7 @@ Mezuniyet Başvurusu:
   // ====== KARİYER ======
   {
     id: "kar1",
-    tags: ["kariyer", "iş ilanı", "staj ilanı", "CV", "mülakat", "linkedin", "kariyer günleri"],
+    tags: ["kariyer", "iş ilanı", "staj ilanı", "CV", "mülakat", "linkedin", "kariyer günleri", "career", "job", "job fair", "resume", "interview", "career center", "recruitment"],
     content: `Kariyer Hizmetleri:
 - ODTÜ Kariyer Merkezi: career.metu.edu.tr
 - İş ve staj ilanları, kariyer fuarı bilgileri
@@ -287,7 +287,7 @@ Mezuniyet Başvurusu:
   // ====== GENEL KAMPÜS ======
   {
     id: "kamp1",
-    tags: ["kampüs", "spor", "kulüp", "sosyal", "etkinlik", "tesis", "havuz", "spor salonu"],
+    tags: ["kampüs", "spor", "kulüp", "sosyal", "etkinlik", "tesis", "havuz", "spor salonu", "campus", "sports", "club", "facilities", "pool", "gym", "activities", "student club", "events", "forest"],
     content: `Kampüs Olanakları:
 - Spor Tesisleri: Olimpik yüzme havuzu, spor salonu, tenis kortları, futbol sahası
 - Kulüpler: 100+ öğrenci kulübü (müzik, spor, teknik, sosyal)
