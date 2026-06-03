@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>METUbot QR Kod</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+      padding: 40px 48px;
+      text-align: center;
+      max-width: 380px;
+      width: 90%;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .logo-row img {
+      height: 48px;
+    }
+    .logo-row span {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+    }
+    .logo-row span strong {
+      color: #D32F2F;
+    }
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 8px 0 20px;
+    }
+    #qrcode canvas, #qrcode img {
+      border-radius: 12px;
+      border: 6px solid #fff;
+      box-shadow: 0 2px 16px rgba(211,47,47,.18);
+    }
+    .label {
+      font-size: 0.8rem;
+      color: #aaa;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .url {
+      font-size: 0.78rem;
+      color: #D32F2F;
+      word-break: break-all;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid #f0f0f0;
+      margin: 20px 0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 4px;
+      background: #D32F2F;
+      color: #fff;
+      padding: 10px 28px;
+      border-radius: 24px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .btn:hover { background: #B71C1C; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-row">
+      <img src="odtu-amblem.png" alt="ODTÜ" onerror="this.style.display='none'">
+      <span>METU<strong>BOT</strong></span>
+    </div>
+
+    <div id="qrcode"></div>
+
+    <p class="label">Taratın → Chat açılır</p>
+    <p class="url">metubot.github.io/chat.html</p>
+
+    <hr class="divider">
+
+    <a class="btn" id="dl-btn" download="metubot-qr.png">QR İndir</a>
+  </div>
+
+  <script>
+    const TARGET_URL = "https://metubot.github.io/chat.html";
+
+    const qr = new QRCode(document.getElementById("qrcode"), {
+      text: TARGET_URL,
+      width: 220,
+      height: 220,
+      colorDark: "#1a1a1a",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Enable download button after QR is rendered
+    setTimeout(() => {
+      const canvas = document.querySelector("#qrcode canvas");
+      if (canvas) {
+        document.getElementById("dl-btn").href = canvas.toDataURL("image/png");
+      }
+    }, 300);
+  </script>
+</body>
+</html>

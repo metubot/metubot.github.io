@@ -113,18 +113,6 @@
         const chatWindow = document.getElementById('chat-window');
         const userInput = document.getElementById('user-input');
 
-        const API_KEY = "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";
-        const API_URL = "https://api.groq.com/openai/v1/chat/completions";
-
-        const SYSTEM_PROMPT = `Sen ODTÜ (Orta Doğu Teknik Üniversitesi) öğrencilerine yardım eden "METUbot" adlı resmi AI asistanısın.
-Uzmanlık alanların: kampüs yaşamı, idari işler, öğrenci yönetmelikleri, ders kaydı, not sistemi, yurt, burs, çift anadal, kayıt dondurma, mezuniyet ve akademik prosedürler.
-Kuralların:
-- Kullanıcının dilinde yanıt ver (Türkçe veya İngilizce)
-- Adımları net ve sıralı açıkla
-- Mümkünse ilgili yönetmelik madde numarasını belirt
-- Bilmediğin konularda odtu.edu.tr veya oidb.metu.edu.tr adresine yönlendir
-- Samimi ama profesyonel bir ton kullan`;
-
         let history = [];
         let isLoading = false;
 
@@ -140,30 +128,19 @@ Kuralların:
             const typingEl = showTyping();
 
             try {
-                const response = await fetch(API_URL, {
+                const response = await fetch('/api/chat', {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: [
-                            { role: "system", content: SYSTEM_PROMPT },
-                            ...history
-                        ],
-                        max_tokens: 1000,
-                        temperature: 0.7
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ messages: history })
                 });
 
                 if (!response.ok) {
                     const err = await response.json();
-                    throw new Error(err.error?.message || "API hatası");
+                    throw new Error(err.error || "API hatası");
                 }
 
                 const data = await response.json();
-                const reply = data.choices?.[0]?.message?.content || "Bir hata oluştu, lütfen tekrar deneyin.";
+                const reply = data.reply || "Bir hata oluştu, lütfen tekrar deneyin.";
                 history.push({ role: "assistant", content: reply });
                 typingEl.remove();
                 addMessage(reply, 'ai');
